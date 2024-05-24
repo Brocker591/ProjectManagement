@@ -1,5 +1,5 @@
-using TodoApi.TodoUseCases.DeleteTodo;
-using TodoApi.TodoUseCases.UpdateTodo;
+using HealthChecks.UI.Client;
+using Microsoft.AspNetCore.Diagnostics.HealthChecks;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -13,6 +13,10 @@ builder.Services.AddDbContext<TodoContext>(options =>
 
 builder.Services.AddScoped<ITodoRepository, TodoRepository>();
 
+//Valitators
+builder.Services.AddScoped<IValidator<CreateTodoDto>, CreateTodoValidator>();
+builder.Services.AddScoped<IValidator<UpdateTodoDto>, UpdateTodoValidator>();
+
 
 //UseCases
 builder.Services.AddTransient<ICreateTodoUseCase, CreateTodoUseCase>();
@@ -21,6 +25,7 @@ builder.Services.AddTransient<IGetTodoUseCase, GetTodoUseCase>();
 builder.Services.AddTransient<IUpdateTodoUseCase, UpdateTodoUseCase>();
 builder.Services.AddTransient<IDeleteTodoUseCase, DeleteTodoUseCase>();
 
+builder.Services.AddHealthChecks().AddNpgSql(builder.Configuration.GetConnectionString("Database")!);
 
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
@@ -43,7 +48,10 @@ using (var scope = app.Services.CreateScope())
     await context.Database.MigrateAsync();
 };
 
-
+app.UseHealthChecks("/health", new HealthCheckOptions
+{
+    ResponseWriter = UIResponseWriter.WriteHealthCheckUIResponse
+});
 
 
 if (app.Environment.IsDevelopment())

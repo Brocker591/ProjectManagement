@@ -1,30 +1,22 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿namespace TodoApi.TodoUseCases.UpdateTodo;
 
-namespace TodoApi.TodoUseCases.UpdateTodo;
-
-public class UpdateTodoDto
-{
-    [Required]
-    public Guid Id { get; init; }
-    [Required] 
-    public string Desciption { get; init; }
-    public Guid? ResponsibleUser { get; init; }
-    public List<Guid>? EditorUsers { get; init; }
-    [Required] 
-    public bool IsProcessed { get; init; }
-    public Guid? ProjectId { get; init; }
-};
-
+public record UpdateTodoDto(Guid Id, string Desciption, Guid? ResponsibleUser, List<Guid>? EditorUsers, bool IsProcessed, Guid? ProjectId);
 
 
 public static class UpdateTodoEndpoint
 {
     public static IEndpointRouteBuilder MapUpdateTodoEndpoint(this IEndpointRouteBuilder routes)
     {
-        routes.MapPut("/tasks", async ([FromBody] UpdateTodoDto todoDto, IUpdateTodoUseCase useCase) =>
+        routes.MapPut("/tasks", async (UpdateTodoDto todoDto, IUpdateTodoUseCase useCase, IValidator<UpdateTodoDto> validator) =>
         {
             try
             {
+                //Minimal Api hat keine Validierung aus diesem Grund wird FluentValidation verwendet
+                ValidationResult validationResult = await validator.ValidateAsync(todoDto);
+                if(!validationResult.IsValid)
+                    return Results.ValidationProblem(validationResult.ToDictionary());
+
+
                 Todo todo = new()
                 {
                     Id = todoDto.Id,
