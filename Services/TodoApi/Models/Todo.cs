@@ -1,6 +1,6 @@
-﻿namespace Task.Api.Models
+﻿namespace TodoApi.Models
 {
-    public class WorkTask
+    public class Todo
     {
         public Guid Id { get; set; }
         public string Desciption { get; set; } = default!;

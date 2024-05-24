@@ -1,20 +1,20 @@
 ﻿using System.Text.Json;
 
-namespace Task.Api.Repositories;
+namespace TodoApi.Repositories;
 
-public class WorkTaskContext : DbContext
+public class TodoContext : DbContext
 {
-    public WorkTaskContext(DbContextOptions<WorkTaskContext> options) : base(options)
+    public TodoContext(DbContextOptions<TodoContext> options) : base(options)
     {
     }
 
-    public DbSet<WorkTask> WorkTasks => Set<WorkTask>();
+    public DbSet<Todo> Todos => Set<Todo>();
 
     protected override void OnModelCreating(ModelBuilder builder)
     {
         base.OnModelCreating(builder);
 
-        builder.Entity<WorkTask>(w => 
+        builder.Entity<Todo>(w => 
         {
             w.HasKey(x => x.Id);
             w.Property(x => x.EditorUsers).HasConversion(

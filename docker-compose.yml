@@ -1,0 +1,10 @@
+version: '3.4'
+
+services:
+
+  tododb:
+    image: postgres
+
+
+volumes:
+  postgres_todo:
