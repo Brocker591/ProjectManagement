@@ -1,29 +1,49 @@
 ﻿namespace ProjectInfrastructure.Repositories;
 
-public class ProjectRepositories : IProjectRepositories
+public class ProjectRepositories(ProjectManagementContext dbContext) : IProjectRepositories
 {
-    public Task<Project> CreateProject(Project project)
+    public async Task<Project> CreateProject(Project project)
     {
-        throw new NotImplementedException();
+        if (project.Id == Guid.Empty)
+            project.Id = Guid.NewGuid();
+        dbContext.Add(project);
+        await dbContext.SaveChangesAsync();
+
+        return project;
     }
 
-    public Task DeleteProject(Guid projectId)
+    public async Task DeleteProject(Guid projectId)
     {
-        throw new NotImplementedException();
+        var existingProject = await GetProject(projectId);
+        dbContext.Projects.Remove(existingProject);
+        await dbContext.SaveChangesAsync();
     }
 
-    public Task<Project> GetProject(Guid projectId)
+    public async Task<Project> GetProject(Guid projectId)
     {
-        throw new NotImplementedException();
+        var project = await dbContext.Projects.FirstOrDefaultAsync(x => x.Id == projectId);
+        if (project == null)
+            throw new ProjectNotFoundException(projectId);
+
+        return project;
     }
 
-    public Task<List<Project>> GetProjects()
+    public async Task<List<Project>> GetProjects()
     {
-        throw new NotImplementedException();
+        var projects = await dbContext.Projects.ToListAsync();
+        return projects;
     }
 
-    public Task UpdateProject(Project project)
+    public async Task UpdateProject(Project project)
     {
-        throw new NotImplementedException();
+        var existingProject = await GetProject(project.Id);
+
+        existingProject.Name = project.Name;
+        existingProject.ResponsibleUser = project.ResponsibleUser;
+        existingProject.Tasks = project.Tasks;
+        existingProject.Users = project.Users;
+        dbContext.Projects.Update(existingProject);
+
+        await dbContext.SaveChangesAsync();
     }
 }

@@ -1,12 +1,19 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿namespace ProjectInfrastructure;
 
-namespace ProjectInfrastructure
+public static class DependencyInjection
 {
-    internal class DependencyInjection
+    public static IServiceCollection AddInfrastructureServices(this IServiceCollection services, IConfiguration configuration)
     {
+
+        var connectionString = configuration.GetConnectionString("Database");
+
+        services.AddDbContext<ProjectManagementContext>(options =>
+        {
+            options.UseNpgsql(connectionString);
+        });
+
+        services.AddScoped<IProjectRepositories, ProjectRepositories>();
+
+        return services;
     }
 }

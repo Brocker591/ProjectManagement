@@ -11,5 +11,11 @@
     <ProjectReference Include="..\ProjectDomain\ProjectDomain.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Project\Commands\" />
+    <Folder Include="Project\EventHandler\" />
+    <Folder Include="Project\Queries\" />
+  </ItemGroup>
+
 
 </Project>

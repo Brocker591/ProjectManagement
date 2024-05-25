@@ -1,26 +1,26 @@
 ﻿namespace TodoApi.Repositories;
 
-public class TodoRepository(TodoContext dbContect) : ITodoRepository
+public class TodoRepository(TodoContext dbContext) : ITodoRepository
 {
     public async Task<Todo> CreateTodo(Todo todo)
     {
         if (todo.Id == Guid.Empty)
             todo.Id = Guid.NewGuid();
-        dbContect.Todos.Add(todo);
-        await dbContect.SaveChangesAsync();
+        dbContext.Todos.Add(todo);
+        await dbContext.SaveChangesAsync();
 
         return todo;
     }
 
     public async Task<List<Todo>> GetTodos()
     {
-        var todos = await dbContect.Todos.ToListAsync();
+        var todos = await dbContext.Todos.ToListAsync();
         return todos;
     }
 
     public async Task<Todo> GetTodo(Guid todoId)
     {
-        var todo = await dbContect.Todos.FirstOrDefaultAsync(x => x.Id == todoId);
+        var todo = await dbContext.Todos.FirstOrDefaultAsync(x => x.Id == todoId);
         if (todo == null)
             throw new TodoNotFoundException(todoId);
 
@@ -36,16 +36,16 @@ public class TodoRepository(TodoContext dbContect) : ITodoRepository
         existingTodo.EditorUsers = todo.EditorUsers;
         existingTodo.IsProcessed = todo.IsProcessed;
         existingTodo.ProjectId = todo.ProjectId;
-        dbContect.Update(existingTodo);
+        dbContext.Todos.Update(existingTodo);
 
-        await dbContect.SaveChangesAsync();
+        await dbContext.SaveChangesAsync();
     }
 
     public async Task DeleteTodo(Guid todoId)
     {
         var existingTodo = await GetTodo(todoId);
-        dbContect.Todos.Remove(existingTodo);
-        await dbContect.SaveChangesAsync();
+        dbContext.Todos.Remove(existingTodo);
+        await dbContext.SaveChangesAsync();
     }
 }
 
