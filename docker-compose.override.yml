@@ -13,3 +13,18 @@ services:
         - "5432:5432"
     volumes:
       - postgres_todo:/var/lib/postgresql/data/
+
+  todoapi:
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+      - ASPNETCORE_HTTP_PORTS=8080
+      - ASPNETCORE_HTTPS_PORTS=8081
+      - ConnectionStrings__Database=Server=tododb;Port=5432;Database=Todos;User Id=postgres;Password=postgres;Include Error Detail=true
+    depends_on:
+      - tododb
+    ports:
+      - "5550:8080"
+      - "5550:8081"
+    volumes:
+      - ${APPDATA}/Microsoft/UserSecrets:/home/app/.microsoft/usersecrets:ro
+      - ${APPDATA}/ASP.NET/Https:/home/app/.aspnet/https:ro

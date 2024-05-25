@@ -6,5 +6,12 @@ services:
     image: postgres
 
 
+  todoapi:
+    image: ${DOCKER_REGISTRY-}todoapi
+    build:
+      context: .
+      dockerfile: Services/Todo/TodoApi/Dockerfile
+
 volumes:
   postgres_todo:
+

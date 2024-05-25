@@ -7,8 +7,9 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="Mapster" Version="7.4.0" />
-    <PackageReference Include="MediatR" Version="12.2.0" />
+    <ProjectReference Include="..\..\..\Infra\Common\Common.csproj" />
+    <ProjectReference Include="..\ProjectDomain\ProjectDomain.csproj" />
   </ItemGroup>
+
 
 </Project>

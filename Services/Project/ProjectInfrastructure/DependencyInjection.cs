@@ -4,9 +4,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Common
+namespace ProjectInfrastructure
 {
-    internal class Class1
+    internal class DependencyInjection
     {
     }
 }
