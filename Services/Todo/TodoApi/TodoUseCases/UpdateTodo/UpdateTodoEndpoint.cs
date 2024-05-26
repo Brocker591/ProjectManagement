@@ -1,6 +1,6 @@
 ﻿namespace TodoApi.TodoUseCases.UpdateTodo;
 
-public record UpdateTodoDto(Guid Id, string Desciption, Guid? ResponsibleUser, List<Guid>? EditorUsers, bool IsProcessed, Guid? ProjectId);
+public record UpdateTodoDto(Guid Id, string Desciption, Guid? ResponsibleUser, List<Guid>? EditorUsers, bool IsProcessed);
 
 
 public static class UpdateTodoEndpoint
@@ -24,7 +24,6 @@ public static class UpdateTodoEndpoint
                     ResponsibleUser = todoDto.ResponsibleUser,
                     EditorUsers = todoDto.EditorUsers,
                     IsProcessed = todoDto.IsProcessed,
-                    ProjectId = todoDto.ProjectId
                 };
 
                 UpdateTodoCommand command = new(todo);

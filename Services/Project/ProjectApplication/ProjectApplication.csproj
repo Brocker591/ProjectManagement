@@ -12,9 +12,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Project\Commands\" />
-    <Folder Include="Project\EventHandler\" />
-    <Folder Include="Project\Queries\" />
+    <Folder Include="ProjectUseCases\EventHandler\" />
   </ItemGroup>
 
 

@@ -5,6 +5,9 @@ services:
   tododb:
     image: postgres
 
+  projectdb:
+    image: postgres
+
 
   todoapi:
     image: ${DOCKER_REGISTRY-}todoapi
@@ -14,4 +17,5 @@ services:
 
 volumes:
   postgres_todo:
+  postgres_project:
 

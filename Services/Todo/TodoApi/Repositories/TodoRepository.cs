@@ -35,7 +35,6 @@ public class TodoRepository(TodoContext dbContext) : ITodoRepository
         existingTodo.ResponsibleUser = todo.ResponsibleUser;
         existingTodo.EditorUsers = todo.EditorUsers;
         existingTodo.IsProcessed = todo.IsProcessed;
-        existingTodo.ProjectId = todo.ProjectId;
         dbContext.Todos.Update(existingTodo);
 
         await dbContext.SaveChangesAsync();
