@@ -6,13 +6,17 @@
     <Nullable>enable</Nullable>
   </PropertyGroup>
 
-  <ItemGroup>
+	<ItemGroup>
+		<FrameworkReference Include="Microsoft.AspNetCore.App" />
+	</ItemGroup>
+
+	<ItemGroup>
     <ProjectReference Include="..\..\..\Infra\Common\Common.csproj" />
     <ProjectReference Include="..\ProjectDomain\ProjectDomain.csproj" />
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="ProjectUseCases\EventHandler\" />
+    <Folder Include="ProjectUseCases\EventHandler\Domain\" />
   </ItemGroup>
 
 

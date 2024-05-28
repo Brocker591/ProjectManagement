@@ -6,7 +6,7 @@ using Microsoft.AspNetCore.Diagnostics.HealthChecks;
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
-builder.Services.AddApplicationServices().AddInfrastructureServices(builder.Configuration);
+builder.Services.AddApplicationServices(builder.Configuration).AddInfrastructureServices(builder.Configuration);
 
 builder.Services.AddHealthChecks().AddNpgSql(builder.Configuration.GetConnectionString("Database")!);
 

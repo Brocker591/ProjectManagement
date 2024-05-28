@@ -1,6 +1,8 @@
 using HealthChecks.UI.Client;
 using Microsoft.AspNetCore.Diagnostics.HealthChecks;
+using System.Reflection;
 using TodoApi.TodoUseCases.GetTodosByProjectId;
+using Common.MassTransit;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -27,6 +29,8 @@ builder.Services.AddTransient<IGetTodosByProjectIdUseCase, GetTodosByProjectIdUs
 builder.Services.AddTransient<IUpdateTodoUseCase, UpdateTodoUseCase>();
 builder.Services.AddTransient<IDeleteTodoUseCase, DeleteTodoUseCase>();
 
+
+builder.Services.AddMessageBroker(builder.Configuration, Assembly.GetExecutingAssembly());
 
 
 builder.Services.AddHealthChecks().AddNpgSql(builder.Configuration.GetConnectionString("Database")!);
