@@ -15,9 +15,5 @@
     <ProjectReference Include="..\ProjectDomain\ProjectDomain.csproj" />
   </ItemGroup>
 
-  <ItemGroup>
-    <Folder Include="ProjectUseCases\EventHandler\Domain\" />
-  </ItemGroup>
-
 
 </Project>

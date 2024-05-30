@@ -13,6 +13,7 @@ public class CreateProjectHandler(IProjectRepositories repository) : ICommandHan
 
         var createdProject = await repository.CreateProject(project);
 
+
         return new CreateProjectResult(createdProject);
     }
 }

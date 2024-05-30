@@ -1,3 +1,5 @@
-﻿namespace ProjectDomain.Events;
+﻿using MediatR;
 
-public record ProjectDeletedEvent(Project project) : IDomainEvent;
+namespace ProjectDomain.Events;
+
+public record ProjectDeletedEvent(Guid projectId) : IDomainEvent;
