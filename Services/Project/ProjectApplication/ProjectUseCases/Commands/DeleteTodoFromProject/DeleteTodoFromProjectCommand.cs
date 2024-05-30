@@ -1,0 +1,4 @@
+﻿namespace ProjectApplication.ProjectUseCases.Commands.DeleteTodoFromProject;
+
+public record DeleteTodoFromProjectCommand(DeleteProjectTodoEvent deleteProjectTodoEvent) : ICommand<DeleteTodoFromProjectResult>;
+public record DeleteTodoFromProjectResult(bool isSuccess);

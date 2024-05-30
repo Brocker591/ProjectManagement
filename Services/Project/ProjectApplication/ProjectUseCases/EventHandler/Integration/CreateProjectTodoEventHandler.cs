@@ -1,17 +1,29 @@
-﻿using MassTransit;
-using MediatR;
-using ProjectApplication.ProjectUseCases.Commands.AddTodoToProject;
+﻿using ProjectApplication.ProjectUseCases.Commands.AddTodoToProject;
 
 namespace ProjectApplication.ProjectUseCases.EventHandler.Integration;
 
-public class CreateProjectTodoEventHandler(ISender sender) : IConsumer<CreateProjectTodoEvent>
+public class CreateProjectTodoEventHandler(ISender sender, ILogger<CreateProjectTodoEventHandler> logger) : IConsumer<CreateProjectTodoEvent>
 {
     public async Task Consume(ConsumeContext<CreateProjectTodoEvent> context)
     {
-        AddTodoToProjectCommand command = new(context.Message);
-        var result = await sender.Send(command);
+        try
+        {
+            AddTodoToProjectCommand command = new(context.Message);
+            var result = await sender.Send(command);
 
-        if (!result.isSuccess)
-            Console.WriteLine("FEHLER");         //TODO Notifikation
+            if (result.isSuccess)
+            {
+                logger.LogInformation("CreateProjectTodoEvent wurde erfolgreich durchgeführt");
+            }
+            else
+            {
+                //TODO Notifikation
+                logger.LogError("Ein Fehler ist bei CreateProjectTodoEvent aufgetreten");
+            }
+        }
+        catch (Exception ex)
+        {
+            logger.LogError(ex.Message);
+        }
     }
 }

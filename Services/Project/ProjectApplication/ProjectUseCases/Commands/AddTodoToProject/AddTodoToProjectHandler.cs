@@ -5,11 +5,12 @@ public class AddTodoToProjectHandler(IProjectRepositories repository) : ICommand
 {
     public async Task<AddTodoToProjectResult> Handle(AddTodoToProjectCommand command, CancellationToken cancellationToken)
     {
-        var existingProject = await repository.GetProject(command.projectTodo.ProjectId);
+        var existingProject = await repository.GetProject(command.createProjectTodoEvent.ProjectId);
 
         if (existingProject != null)
         {
-            existingProject.Tasks.Add(command.projectTodo.Id);
+            existingProject.Tasks.Add(command.createProjectTodoEvent.Id);
+            await repository.UpdateProject(existingProject);
             return new AddTodoToProjectResult(true);
         }
 

@@ -8,3 +8,4 @@ global using ProjectApplication.ProjectUseCases.Commands.CreateProject;
 global using ProjectApplication.ProjectUseCases.Commands.DeleteProject;
 global using ProjectApplication.ProjectUseCases.Commands.UpdateProject;
 global using ProjectApplication.ProjectUseCases.Queries.GetProjectsByResponsibleUser;
+global using Microsoft.EntityFrameworkCore;

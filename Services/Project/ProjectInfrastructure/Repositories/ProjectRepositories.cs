@@ -6,6 +6,9 @@ public class ProjectRepositories(ProjectManagementContext dbContext) : IProjectR
     {
         if (project.Id == Guid.Empty)
             project.Id = Guid.NewGuid();
+
+        SetMetaDate(project);
+
         dbContext.Add(project);
         await dbContext.SaveChangesAsync();
 
@@ -42,8 +45,27 @@ public class ProjectRepositories(ProjectManagementContext dbContext) : IProjectR
         existingProject.ResponsibleUser = project.ResponsibleUser;
         existingProject.Tasks = project.Tasks;
         existingProject.Users = project.Users;
+
+
+        SetMetaDate(existingProject);
+
         dbContext.Projects.Update(existingProject);
 
         await dbContext.SaveChangesAsync();
+    }
+
+    private void SetMetaDate(Project project)
+    {
+        var datetimeNow = DateTime.UtcNow;
+
+        if(project.CreateAt == null)
+        {
+            //TODO Noch keine Benutzer
+            project.CreateAt = datetimeNow;
+            project.CreatedBy = "CodeBehind";
+        }
+
+        project.LastModifiedBy = "CodeBehind";
+        project.LastModified = datetimeNow;
     }
 }

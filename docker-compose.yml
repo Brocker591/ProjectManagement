@@ -8,6 +8,9 @@ services:
   projectdb:
     image: postgres
 
+  messagebroker:
+    image: rabbitmq:management
+
 
   todoapi:
     image: ${DOCKER_REGISTRY-}todoapi
@@ -15,7 +18,14 @@ services:
       context: .
       dockerfile: Services/Todo/TodoApi/Dockerfile
 
+  projectapi:
+    image: ${DOCKER_REGISTRY-}projectapi
+    build:
+      context: .
+      dockerfile: Services/Project/ProjectApi/Dockerfile
+
 volumes:
   postgres_todo:
   postgres_project:
+
 
