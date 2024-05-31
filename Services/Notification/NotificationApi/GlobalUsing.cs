@@ -1,0 +1,13 @@
+﻿global using NotificationApi.Services;
+global using NotificationApi.Models;
+global using System.Net.Mail;
+global using Microsoft.EntityFrameworkCore;
+global using NotificationApi.Exceptions;
+global using NotificationApi.Repositories;
+global using FluentValidation;
+global using NotificationApi.NotificationUseCase.CreateEmailUser;
+global using NotificationApi.NotificationUseCase.DeleteEmailUser;
+global using NotificationApi.NotificationUseCase.GetEmailUsers;
+global using NotificationApi.NotificationUseCase.GetEmailUser;
+global using NotificationApi.NotificationUseCase.UpdateEmailUser;
+global using NotificationApi.NotificationUseCase.ErrorCreateProjectTodoUseCase;

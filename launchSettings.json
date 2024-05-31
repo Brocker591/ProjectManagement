@@ -5,7 +5,8 @@
       "commandVersion": "1.0",
       "serviceActions": {
         "todoapi": "StartDebugging",
-        "projectapi": "StartDebugging"
+        "projectapi": "StartDebugging",
+        "notificationapi": "StartDebugging"
       }
     }
   }

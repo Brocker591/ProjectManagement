@@ -8,6 +8,9 @@ services:
   projectdb:
     image: postgres
 
+  notificationdb:
+    image: postgres
+
   messagebroker:
     image: rabbitmq:management
 
@@ -24,8 +27,16 @@ services:
       context: .
       dockerfile: Services/Project/ProjectApi/Dockerfile
 
+  notificationapi:
+    image: ${DOCKER_REGISTRY-}notificationapi
+    build:
+      context: .
+      dockerfile: Services/Notification/NotificationApi/Dockerfile
+
 volumes:
   postgres_todo:
   postgres_project:
+  postgres_notification:
+
 
 

@@ -26,6 +26,19 @@ services:
     volumes:
       - postgres_project:/var/lib/postgresql/data/
 
+  notificationdb:
+    container_name: notificationdb
+    environment:
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=postgres
+      - POSTGRES_DB=Notifications
+    restart: always
+    ports:
+        - "5434:5432"
+    volumes:
+      - postgres_notification:/var/lib/postgresql/data/ 
+
+
   messagebroker:
     container_name: messagebroker
     hostname: project-mq
@@ -71,6 +84,25 @@ services:
     ports:
       - "6600:8080"
       - "6660:8081"
+    volumes:
+      - ${APPDATA}/Microsoft/UserSecrets:/home/app/.microsoft/usersecrets:ro
+      - ${APPDATA}/ASP.NET/Https:/home/app/.aspnet/https:ro
+
+  notificationapi:
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+      - ASPNETCORE_HTTP_PORTS=8080
+      - ASPNETCORE_HTTPS_PORTS=8081
+      - ConnectionStrings__Database=Server=notificationdb;Port=5432;Database=Notifications;User Id=postgres;Password=postgres;Include Error Detail=true
+      - MessageBroker__Host=amqp://project-mq:5672
+      - MessageBroker__UserName=guest
+      - MessageBroker__Password=guest
+    depends_on:
+      - notificationdb
+      - messagebroker
+    ports:
+      - "7700:8080"
+      - "7770:8081"
     volumes:
       - ${APPDATA}/Microsoft/UserSecrets:/home/app/.microsoft/usersecrets:ro
       - ${APPDATA}/ASP.NET/Https:/home/app/.aspnet/https:ro

@@ -2,7 +2,7 @@
 
 namespace ProjectApplication.ProjectUseCases.EventHandler.Integration;
 
-public class CreateProjectTodoEventHandler(ISender sender, ILogger<CreateProjectTodoEventHandler> logger) : IConsumer<CreateProjectTodoEvent>
+public class CreateProjectTodoEventHandler(ISender sender, IPublishEndpoint publishEndpoint, ILogger<CreateProjectTodoEventHandler> logger) : IConsumer<CreateProjectTodoEvent>
 {
     public async Task Consume(ConsumeContext<CreateProjectTodoEvent> context)
     {
@@ -17,13 +17,16 @@ public class CreateProjectTodoEventHandler(ISender sender, ILogger<CreateProject
             }
             else
             {
-                //TODO Notifikation
-                logger.LogError("Ein Fehler ist bei CreateProjectTodoEvent aufgetreten");
+                // Notification
+                ErrorCreateProjectTodoEvent errorEvent = new(" task could not be assigned to a project");
+                await publishEndpoint.Publish(errorEvent);
             }
         }
         catch (Exception ex)
         {
-            logger.LogError(ex.Message);
+            // Notification
+            ErrorCreateProjectTodoEvent errorEvent = new(ex.Message);
+            await publishEndpoint.Publish(errorEvent);
         }
     }
 }
