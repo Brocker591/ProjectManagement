@@ -1,6 +1,6 @@
 ﻿namespace ProjectApplication.ProjectUseCases.Commands.UpdateProject;
 
-public class UpdateProjectHandler(IProjectRepositories repository) : ICommandHandler<UpdateProjectCommand, UpdateProjectResult>
+public class UpdateProjectHandler(IProjectRepositories repository, IMediator mediator) : ICommandHandler<UpdateProjectCommand, UpdateProjectResult>
 {
     public async Task<UpdateProjectResult> Handle(UpdateProjectCommand command, CancellationToken cancellationToken)
     {
@@ -8,8 +8,13 @@ public class UpdateProjectHandler(IProjectRepositories repository) : ICommandHan
 
         await repository.UpdateProject(project);
 
-        return new UpdateProjectResult(true);
+        if (project.IsClosed)
+        {
+            ProjectClosingEvent domainEvent = new ProjectClosingEvent(project.Id);
+            await mediator.Publish(domainEvent, cancellationToken);
+        }
 
+        return new UpdateProjectResult(true);
     }
 }
 

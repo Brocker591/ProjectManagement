@@ -1,8 +1,8 @@
 using HealthChecks.UI.Client;
 using Microsoft.AspNetCore.Diagnostics.HealthChecks;
 using System.Reflection;
-using TodoApi.TodoUseCases.GetTodosByProjectId;
 using Common.MassTransit;
+
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -28,6 +28,8 @@ builder.Services.AddTransient<IGetTodoUseCase, GetTodoUseCase>();
 builder.Services.AddTransient<IGetTodosByProjectIdUseCase, GetTodosByProjectIdUseCase>();
 builder.Services.AddTransient<IUpdateTodoUseCase, UpdateTodoUseCase>();
 builder.Services.AddTransient<IDeleteTodoUseCase, DeleteTodoUseCase>();
+builder.Services.AddTransient<IProjectDeletedUseCase, ProjectDeletedUseCase>();
+builder.Services.AddTransient<IProjectClosedUseCase, ProjectClosedUseCase>();
 
 
 builder.Services.AddMessageBroker(builder.Configuration, Assembly.GetExecutingAssembly());

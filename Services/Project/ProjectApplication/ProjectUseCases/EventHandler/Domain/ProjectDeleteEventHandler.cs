@@ -9,7 +9,8 @@ public class ProjectDeleteEventHandler(IPublishEndpoint publishEndpoint, ILogger
         logger.LogInformation("Domain Event ProjectDeleteEvent wurde ausgelöst");
 
 
-        DeleteProjectEvent deleteProjectEvent = new DeleteProjectEvent() { Id = domainEvent.projectId };
-        await publishEndpoint.Publish(deleteProjectEvent, cancellationToken);
+        DeleteProjectEvent messageObject = new DeleteProjectEvent(domainEvent.projectId);
+
+        await publishEndpoint.Publish(messageObject, cancellationToken);
     }
 }

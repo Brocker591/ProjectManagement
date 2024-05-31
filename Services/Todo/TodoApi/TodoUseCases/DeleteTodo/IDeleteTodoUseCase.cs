@@ -1,5 +1,4 @@
-﻿
-namespace TodoApi.TodoUseCases.DeleteTodo;
+﻿namespace TodoApi.TodoUseCases.DeleteTodo;
 
 public interface IDeleteTodoUseCase
 {

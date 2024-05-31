@@ -12,7 +12,7 @@ using ProjectInfrastructure.Database;
 namespace ProjectInfrastructure.Migrations
 {
     [DbContext(typeof(ProjectManagementContext))]
-    [Migration("20240526102200_InitialCreate")]
+    [Migration("20240531130944_InitialCreate")]
     partial class InitialCreate
     {
         /// <inheritdoc />
@@ -36,6 +36,9 @@ namespace ProjectInfrastructure.Migrations
 
                     b.Property<string>("CreatedBy")
                         .HasColumnType("text");
+
+                    b.Property<bool>("IsClosed")
+                        .HasColumnType("boolean");
 
                     b.Property<DateTime?>("LastModified")
                         .HasColumnType("timestamp with time zone");

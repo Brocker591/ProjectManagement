@@ -1,6 +1,3 @@
 ﻿namespace Common.MessageEvents;
 
-public class DeleteProjectEvent
-{
-    public Guid Id { get; set; }
-}
+public record DeleteProjectEvent(Guid Id);

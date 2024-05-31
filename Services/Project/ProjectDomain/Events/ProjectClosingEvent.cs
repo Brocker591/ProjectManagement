@@ -1,3 +1,3 @@
 ﻿namespace ProjectDomain.Events;
 
-public record ProjectClosingEvent(Project project) : IDomainEvent;
+public record ProjectClosingEvent(Guid projectId) : IDomainEvent;

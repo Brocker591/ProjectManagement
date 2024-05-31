@@ -1,8 +1,6 @@
-﻿
-namespace TodoApi.TodoUseCases.GetTodosByProjectId
+﻿namespace TodoApi.TodoUseCases.GetTodosByProjectId;
+
+public interface IGetTodosByProjectIdUseCase
 {
-    public interface IGetTodosByProjectIdUseCase
-    {
-        Task<GetTodosByProjectIdResult> Execute(GetTodosByProjectIdQuery query);
-    }
+    Task<GetTodosByProjectIdResult> Execute(GetTodosByProjectIdQuery query);
 }

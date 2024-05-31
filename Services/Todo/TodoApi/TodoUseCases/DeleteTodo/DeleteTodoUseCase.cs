@@ -1,5 +1,4 @@
 ﻿using MassTransit;
-using MassTransit.Transports;
 
 namespace TodoApi.TodoUseCases.DeleteTodo;
 
@@ -19,7 +18,6 @@ public class DeleteTodoUseCase(ITodoRepository repository, IPublishEndpoint publ
             DeleteProjectTodoEvent deleteProjectTodoEvent = new() { Id = command.id, ProjectId = (Guid)projectId };
             await publishEndpoint.Publish(deleteProjectTodoEvent);
         }
-
         return new DeleteTodoResult();
     }
 }

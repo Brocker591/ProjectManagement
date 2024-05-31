@@ -6,3 +6,4 @@ global using MassTransit;
 global using MediatR;
 global using Common.MessageEvents;
 global using Microsoft.Extensions.Logging;
+global using ProjectDomain.Events;

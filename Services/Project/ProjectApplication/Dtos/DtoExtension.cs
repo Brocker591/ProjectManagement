@@ -11,6 +11,7 @@ public static class DtoExtension
             ResponsibleUser = project.ResponsibleUser,
             Tasks = project.Tasks,
             Users = project.Users,
+            IsClosed = project.IsClosed
         };
     }
 
@@ -23,6 +24,7 @@ public static class DtoExtension
             ResponsibleUser = dto.ResponsibleUser,
             Tasks = dto.Tasks,
             Users = dto.Users,
+            IsClosed = dto.IsClosed
         };
     }
 }

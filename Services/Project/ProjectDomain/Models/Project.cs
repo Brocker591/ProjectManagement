@@ -7,6 +7,7 @@ public class Project : Entity<Guid>
     public Guid ResponsibleUser { get; set; } = default!;
     public List<Guid> Tasks { get; set; } = new List<Guid>();
     public List<Guid> Users { get; set; } = new List<Guid>();
+    public bool IsClosed { get; set; } = false;
 
     public static Project Create(string Name, Guid ResponsibleUser, List<Guid> Tasks, List<Guid> Users)
     {
@@ -18,7 +19,8 @@ public class Project : Entity<Guid>
             Name = Name,
             ResponsibleUser = ResponsibleUser,
             Tasks = Tasks,
-            Users = Users
+            Users = Users,
+            IsClosed = false
         };
     }
 }

@@ -2,6 +2,7 @@ using ProjectInfrastructure;
 using ProjectApplication;
 using HealthChecks.UI.Client;
 using Microsoft.AspNetCore.Diagnostics.HealthChecks;
+using ProjectInfrastructure.Database;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -18,6 +19,7 @@ builder.Services.AddSwaggerGen();
 var app = builder.Build();
 
 await app.InitialiseDatabaseAsync();
+
 
 app.UseHealthChecks("/health", new HealthCheckOptions
 {

@@ -29,5 +29,4 @@ public class CreateTodoUseCase(ITodoRepository repository, IPublishEndpoint publ
             
         return new CreateTodoResult(createdTodo);
     }
-
 }

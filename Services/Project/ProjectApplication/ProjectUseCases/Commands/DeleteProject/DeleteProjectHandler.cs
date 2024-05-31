@@ -12,7 +12,6 @@ public class DeleteProjectHandler(IProjectRepositories repositories, IMediator m
         ProjectDeletedEvent domainEvent = new ProjectDeletedEvent(command.id);
         await mediator.Publish(domainEvent, cancellationToken);
 
-
         return new DeleteProjectResult(true);
     }
 }

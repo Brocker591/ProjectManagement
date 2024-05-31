@@ -28,7 +28,7 @@ services:
 
   messagebroker:
     container_name: messagebroker
-    hostname: ecommerce-mq
+    hostname: project-mq
     environment:
       - RABBITMQ_DEFAULT_USER=guest
       - RABBITMQ_DEFAULT_PASS=guest
@@ -43,8 +43,12 @@ services:
       - ASPNETCORE_HTTP_PORTS=8080
       - ASPNETCORE_HTTPS_PORTS=8081
       - ConnectionStrings__Database=Server=tododb;Port=5432;Database=Todos;User Id=postgres;Password=postgres;Include Error Detail=true
+      - MessageBroker__Host=amqp://project-mq:5672
+      - MessageBroker__UserName=guest
+      - MessageBroker__Password=guest
     depends_on:
       - tododb
+      - messagebroker
     ports:
       - "5500:8080"
       - "5550:8081"
@@ -57,9 +61,13 @@ services:
       - ASPNETCORE_ENVIRONMENT=Development
       - ASPNETCORE_HTTP_PORTS=8080
       - ASPNETCORE_HTTPS_PORTS=8081
-      - ConnectionStrings__Database=Server=projectdb;Port=5433;Database=Projects;User Id=postgres;Password=postgres;Include Error Detail=true
+      - ConnectionStrings__Database=Server=projectdb;Port=5432;Database=Projects;User Id=postgres;Password=postgres;Include Error Detail=true
+      - MessageBroker__Host=amqp://project-mq:5672
+      - MessageBroker__UserName=guest
+      - MessageBroker__Password=guest
     depends_on:
       - projectdb
+      - messagebroker
     ports:
       - "6600:8080"
       - "6660:8081"

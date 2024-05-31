@@ -1,6 +1,5 @@
 ﻿namespace TodoApi.TodoUseCases.GetTodosByProjectId;
 
-
 public record ResponseTodosByProjectId(List<Todo> data);
 public static class GetTodosByProjectIdEndpoint
 {

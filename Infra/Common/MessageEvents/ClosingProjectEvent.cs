@@ -1,6 +1,3 @@
 ﻿namespace Common.MessageEvents;
 
-public class ClosingProjectEvent
-{
-    public Guid Id { get; set; }
-}
+public record ClosingProjectEvent(Guid Id);

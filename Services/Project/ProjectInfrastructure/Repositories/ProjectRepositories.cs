@@ -45,6 +45,7 @@ public class ProjectRepositories(ProjectManagementContext dbContext) : IProjectR
         existingProject.ResponsibleUser = project.ResponsibleUser;
         existingProject.Tasks = project.Tasks;
         existingProject.Users = project.Users;
+        existingProject.IsClosed = project.IsClosed;
 
 
         SetMetaDate(existingProject);

@@ -1,8 +1,6 @@
-﻿
-namespace TodoApi.TodoUseCases.GetTodo
+﻿namespace TodoApi.TodoUseCases.GetTodo;
+
+public interface IGetTodoUseCase
 {
-    public interface IGetTodoUseCase
-    {
-        Task<GetTodoResult> Execute(GetTodoQuery query);
-    }
+    Task<GetTodoResult> Execute(GetTodoQuery query);
 }
