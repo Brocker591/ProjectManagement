@@ -1,5 +1,5 @@
 ﻿
-namespace NotificationApi.NotificationUseCase.ErrorCreateProjectTodoUseCase
+namespace NotificationApi.NotificationUseCase.ErrorCreateProjectTodo
 {
     public interface IErrorCreateProjectTodoUseCase
     {

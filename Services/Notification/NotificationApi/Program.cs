@@ -28,8 +28,11 @@ builder.Services.AddTransient<IGetEmailUsersUseCase, GetEmailUsersUseCase>();
 builder.Services.AddTransient<IGetEmailUserUseCase, GetEmailUserUseCase>();
 builder.Services.AddTransient<IUpdateEmailUserUseCase, UpdateEmailUserUseCase>();
 builder.Services.AddTransient<IDeleteEmailUserUseCase, DeleteEmailUserUseCase>();
-builder.Services.AddTransient<ISmtpService, SmtpService>();
 builder.Services.AddTransient<IErrorCreateProjectTodoUseCase, ErrorCreateProjectTodoUseCase>();
+
+//Service
+builder.Services.AddTransient<ISmtpService, SmtpService>();
+
 
 
 builder.Services.AddMessageBroker(builder.Configuration, Assembly.GetExecutingAssembly());
@@ -49,7 +52,7 @@ var app = builder.Build();
 app.MapCreateEmailUserEndpoint()
     .MapDeleteEmailUserEndpoint()
     .MapGetTodoEndpoint()
-    .MapGetTodosEndpoint()
+    .MapGetEmailUsersEndpoint()
     .MapUpdateEmailUserEndpoint();
 
 

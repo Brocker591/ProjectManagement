@@ -6,7 +6,7 @@ public static class UpdateEmailUserEndpoint
 {
     public static IEndpointRouteBuilder MapUpdateEmailUserEndpoint(this IEndpointRouteBuilder routes)
     {
-        routes.MapPut("/tasks", async (EmailUser emailUser, IUpdateEmailUserUseCase useCase, IValidator<EmailUser> validator) =>
+        routes.MapPut("/EmailUsers", async (EmailUser emailUser, IUpdateEmailUserUseCase useCase, IValidator<EmailUser> validator) =>
         {
             try
             {
@@ -22,19 +22,19 @@ public static class UpdateEmailUserEndpoint
 
                 return Results.NoContent();
             }
-            catch (EmailUserNotFoundException todoEx)
+            catch (EmailUserNotFoundException exc)
             {
-                return Results.NotFound(todoEx.Message);
+                return Results.NotFound(exc.Message);
             }
             catch (Exception ex)
             {
-                return Results.Problem(detail: "Task could not be updated", statusCode: StatusCodes.Status500InternalServerError);
+                return Results.Problem(detail: "EmailUsers could not be updated", statusCode: StatusCodes.Status500InternalServerError);
             }
         })
-.WithName("UpdateTasks")
-.ProducesProblem(StatusCodes.Status500InternalServerError)
-.WithSummary("Update Tasks")
-.WithDescription("Update Tasks");
+        .WithName("UpdateEmailUsers")
+        .ProducesProblem(StatusCodes.Status500InternalServerError)
+        .WithSummary("Update EmailUsers")
+        .WithDescription("Update EmailUsers");
 
         return routes;
     }

@@ -10,4 +10,4 @@ global using NotificationApi.NotificationUseCase.DeleteEmailUser;
 global using NotificationApi.NotificationUseCase.GetEmailUsers;
 global using NotificationApi.NotificationUseCase.GetEmailUser;
 global using NotificationApi.NotificationUseCase.UpdateEmailUser;
-global using NotificationApi.NotificationUseCase.ErrorCreateProjectTodoUseCase;
+global using NotificationApi.NotificationUseCase.ErrorCreateProjectTodo;

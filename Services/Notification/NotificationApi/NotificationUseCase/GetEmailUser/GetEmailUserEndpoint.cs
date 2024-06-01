@@ -25,10 +25,10 @@ public static class GetEmailUserEndpoint
                 return Results.BadRequest(ex.Message);
             }
         })
-        .WithName("GetEmailUsers")
+        .WithName("GetEmailUser")
         .ProducesProblem(StatusCodes.Status500InternalServerError)
-        .WithSummary("Get EmailUsers")
-        .WithDescription("Get EmailUsers");
+        .WithSummary("Get EmailUser")
+        .WithDescription("Get EmailUser");
 
         return routes;
     }

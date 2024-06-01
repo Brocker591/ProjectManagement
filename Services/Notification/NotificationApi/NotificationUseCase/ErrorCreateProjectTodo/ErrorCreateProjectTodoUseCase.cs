@@ -1,4 +1,4 @@
-﻿namespace NotificationApi.NotificationUseCase.ErrorCreateProjectTodoUseCase;
+﻿namespace NotificationApi.NotificationUseCase.ErrorCreateProjectTodo;
 
 public record ErrorCreateProjectTodoCommand(string message);
 public record ErrorUpdateProjectResult(bool isSuccess);
@@ -12,8 +12,8 @@ public class ErrorCreateProjectTodoUseCase(ISmtpService smtpService, IEmailUserR
 
         MailModel mailModel = new()
         {
-            ToAddress = new MailAddress("ToAddress"),
-            FromAddress = new MailAddress("FromAddress"),
+            ToAddress = new MailAddress("trycodebehind@gmail.com"),
+            FromAddress = new MailAddress("trycodebehind@gmail.com"),
             Subject = "Errors when creating a project task",
             Body = command.message,
             EmailUsers = await repository.GetEmailUsers()

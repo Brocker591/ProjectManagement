@@ -1,4 +1,6 @@
-﻿namespace NotificationApi.Services;
+﻿using System.Net;
+
+namespace NotificationApi.Services;
 
 public class SmtpService(ILogger<SmtpService> logger) : ISmtpService
 {
@@ -10,20 +12,24 @@ public class SmtpService(ILogger<SmtpService> logger) : ISmtpService
 
         foreach (var user in mailModel.EmailUsers)
         {
-            SmtpClient smtp = new SmtpClient(user.Host, user.Port);
-            smtp.Host = user.Host;
-            smtp.DeliveryMethod = SmtpDeliveryMethod.Network;
-            smtp.EnableSsl = user.EnableSsl;
+            using (SmtpClient smtpClient = new SmtpClient(user.Host, user.Port))
+            {
+                smtpClient.Host = user.Host;
+                smtpClient.DeliveryMethod = SmtpDeliveryMethod.Network;
+                smtpClient.EnableSsl = user.EnableSsl;
+                smtpClient.Credentials = new NetworkCredential(user.Smtp_Username, user.Smtp_Password);
 
-            try
-            {
-                smtp.Send(email);
+                try
+                {
+                    smtpClient.Send(email);
+                }
+                catch (Exception ex)
+                {
+                    logger.LogError(ex.Message);
+                    return false;
+                }
             }
-            catch (Exception ex)
-            {
-                logger.LogError(ex.Message);
-                return false;
-            }
+
         }
 
         return true;

@@ -1,7 +1,7 @@
 ﻿using Common.MessageEvents;
 using MassTransit;
 
-namespace NotificationApi.NotificationUseCase.ErrorCreateProjectTodoUseCase;
+namespace NotificationApi.NotificationUseCase.ErrorCreateProjectTodo;
 
 public class ErrorCreateProjectTodoEventHandler(IErrorCreateProjectTodoUseCase useCase) : IConsumer<ErrorCreateProjectTodoEvent>
 {

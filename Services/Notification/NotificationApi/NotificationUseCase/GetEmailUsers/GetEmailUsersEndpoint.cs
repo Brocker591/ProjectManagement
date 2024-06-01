@@ -3,7 +3,7 @@
 public record ResponseEmailUsers(List<EmailUser> data);
 public static class GetEmailUsersEndpoint
 {
-    public static IEndpointRouteBuilder MapGetTodosEndpoint(this IEndpointRouteBuilder routes)
+    public static IEndpointRouteBuilder MapGetEmailUsersEndpoint(this IEndpointRouteBuilder routes)
     {
         routes.MapGet("/EmailUsers", async (IGetEmailUsersUseCase useCase) =>
         {

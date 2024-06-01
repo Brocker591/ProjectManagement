@@ -18,7 +18,7 @@ public class CreateProjectTodoEventHandler(ISender sender, IPublishEndpoint publ
             else
             {
                 // Notification
-                ErrorCreateProjectTodoEvent errorEvent = new(" task could not be assigned to a project");
+                ErrorCreateProjectTodoEvent errorEvent = new("task could not be assigned to a project");
                 await publishEndpoint.Publish(errorEvent);
             }
         }
