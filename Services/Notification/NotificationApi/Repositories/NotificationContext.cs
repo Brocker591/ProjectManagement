@@ -7,6 +7,7 @@ public class NotificationContext : DbContext
     }
 
     public DbSet<EmailUser> EmailUsers => Set<EmailUser>();
+    public DbSet<NotificationEmail> NotificationEmails => Set<NotificationEmail>();
 
     protected override void OnModelCreating(ModelBuilder builder)
     {
@@ -15,6 +16,11 @@ public class NotificationContext : DbContext
         builder.Entity<EmailUser>(w =>
         {
             w.HasKey(x => x.Id);
+        });
+
+        builder.Entity<NotificationEmail>(x => 
+        {
+            x.HasKey(x => x.Id);
         });
     }
 }

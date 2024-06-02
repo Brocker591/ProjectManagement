@@ -6,10 +6,6 @@ public class SmtpService(ILogger<SmtpService> logger) : ISmtpService
 {
     public async Task<bool> SendEmail(MailModel mailModel)
     {
-        MailMessage email = new MailMessage(mailModel.FromAddress, mailModel.ToAddress);
-        email.Subject = mailModel.Subject;
-        email.Body = mailModel.Body;
-
         foreach (var user in mailModel.EmailUsers)
         {
             using (SmtpClient smtpClient = new SmtpClient(user.Host, user.Port))
@@ -21,7 +17,14 @@ public class SmtpService(ILogger<SmtpService> logger) : ISmtpService
 
                 try
                 {
-                    smtpClient.Send(email);
+                    foreach(var mail in mailModel.ToAddress)
+                    {
+                        MailMessage email = new MailMessage(mailModel.FromAddress, mail);
+                        email.Subject = mailModel.Subject;
+                        email.Body = mailModel.Body;
+
+                        smtpClient.Send(email);
+                    }
                 }
                 catch (Exception ex)
                 {
@@ -29,9 +32,7 @@ public class SmtpService(ILogger<SmtpService> logger) : ISmtpService
                     return false;
                 }
             }
-
         }
-
         return true;
     }
 }

@@ -1,7 +1,6 @@
-﻿namespace NotificationApi.Services
+﻿namespace NotificationApi.Services;
+
+public interface ISmtpService
 {
-    public interface ISmtpService
-    {
-        Task<bool> SendEmail(MailModel mailModel);
-    }
+    Task<bool> SendEmail(MailModel mailModel);
 }

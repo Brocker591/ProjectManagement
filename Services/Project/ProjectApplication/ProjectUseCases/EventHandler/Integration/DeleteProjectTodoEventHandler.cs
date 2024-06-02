@@ -1,8 +1,10 @@
-﻿using ProjectApplication.ProjectUseCases.Commands.DeleteTodoFromProject;
+﻿using MassTransit;
+using MassTransit.Transports;
+using ProjectApplication.ProjectUseCases.Commands.DeleteTodoFromProject;
 
 namespace ProjectApplication.ProjectUseCases.EventHandler.Integration;
 
-public class DeleteProjectTodoEventHandler(ISender sender, ILogger<DeleteProjectTodoEventHandler> logger) : IConsumer<DeleteProjectTodoEvent>
+public class DeleteProjectTodoEventHandler(ISender sender, IPublishEndpoint publishEndpoint, ILogger<DeleteProjectTodoEventHandler> logger) : IConsumer<DeleteProjectTodoEvent>
 {
     public async Task Consume(ConsumeContext<DeleteProjectTodoEvent> context)
     {
@@ -13,13 +15,20 @@ public class DeleteProjectTodoEventHandler(ISender sender, ILogger<DeleteProject
 
             if (result.isSuccess)
             {
-                logger.LogInformation("DeleteProjectTodoEvent wurde erfolgreich durchgeführt");
+                logger.LogInformation("An assigned project task could not be deleted");
+
+                // Notification
+                ErrorCreateProjectTodoEvent errorEvent = new("An assigned project task could not be deleted");
+                await publishEndpoint.Publish(errorEvent);
 
             }
             else
             {
-                //TODO Notifikation
-                logger.LogError("Ein Fehler ist bei DeleteProjectTodoEvent aufgetreten");
+                logger.LogInformation("An assigned project task could not be deleted");
+
+                // Notification
+                ErrorCreateProjectTodoEvent errorEvent = new("An assigned project task could not be deleted");
+                await publishEndpoint.Publish(errorEvent);
             }
         }
         catch (Exception ex)

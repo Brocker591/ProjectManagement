@@ -2,6 +2,8 @@ using HealthChecks.UI.Client;
 using Microsoft.AspNetCore.Diagnostics.HealthChecks;
 using System.Reflection;
 using Common.MassTransit;
+using NotificationApi.NotificationUseCases.ErrorDeleteProjectTodo;
+
 
 
 var builder = WebApplication.CreateBuilder(args);
@@ -15,6 +17,7 @@ builder.Services.AddDbContext<NotificationContext>(options =>
 });
 
 builder.Services.AddScoped<IEmailUserRepository, EmailUserRepository>();
+builder.Services.AddScoped<INotificationEmailRepository, NotificationEmailRepository>();
 
 
 //Valitators
@@ -28,7 +31,16 @@ builder.Services.AddTransient<IGetEmailUsersUseCase, GetEmailUsersUseCase>();
 builder.Services.AddTransient<IGetEmailUserUseCase, GetEmailUserUseCase>();
 builder.Services.AddTransient<IUpdateEmailUserUseCase, UpdateEmailUserUseCase>();
 builder.Services.AddTransient<IDeleteEmailUserUseCase, DeleteEmailUserUseCase>();
+
+builder.Services.AddTransient<IGetNotificationEmailsUseCase, GetNotificationEmailsUseCase>();
+builder.Services.AddTransient<IGetNotificationEmailUseCase, GetNotificationEmailUseCase>();
+builder.Services.AddTransient<IUpdateNotificationEmailUseCase, UpdateNotificationEmailUseCase>();
+builder.Services.AddTransient<IDeleteNotificationEmailUseCase, DeleteNotificationEmailUseCase>();
+builder.Services.AddTransient<ICreateNotificationEmailUseCase, CreateNotificationEmailUseCase>();
+
 builder.Services.AddTransient<IErrorCreateProjectTodoUseCase, ErrorCreateProjectTodoUseCase>();
+builder.Services.AddTransient<IErrorDeleteProjectTodoUseCase, ErrorDeleteProjectTodoUseCase>();
+
 
 //Service
 builder.Services.AddTransient<ISmtpService, SmtpService>();
@@ -51,9 +63,14 @@ var app = builder.Build();
 
 app.MapCreateEmailUserEndpoint()
     .MapDeleteEmailUserEndpoint()
-    .MapGetTodoEndpoint()
+    .MapGetEmailUserEndpoint()
     .MapGetEmailUsersEndpoint()
-    .MapUpdateEmailUserEndpoint();
+    .MapUpdateEmailUserEndpoint()
+    .MapCreateNotificationEmailEndpoint()
+    .MapDeleteNotificationEmailEndpoint()
+    .MapGetNotificationEmailEndpoint()
+    .MapGetNotificationEmailsEndpoint()
+    .MapUpdateNotificationEmailEndpoint();
 
 
 //Create Database
