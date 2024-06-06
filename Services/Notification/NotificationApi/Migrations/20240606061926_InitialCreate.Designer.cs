@@ -12,7 +12,7 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace NotificationApi.Migrations
 {
     [DbContext(typeof(NotificationContext))]
-    [Migration("20240601090236_InitialCreate")]
+    [Migration("20240606061926_InitialCreate")]
     partial class InitialCreate
     {
         /// <inheritdoc />
@@ -52,6 +52,21 @@ namespace NotificationApi.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("EmailUsers");
+                });
+
+            modelBuilder.Entity("NotificationApi.Models.NotificationEmail", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uuid");
+
+                    b.Property<string>("Email")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("NotificationEmails");
                 });
 #pragma warning restore 612, 618
         }

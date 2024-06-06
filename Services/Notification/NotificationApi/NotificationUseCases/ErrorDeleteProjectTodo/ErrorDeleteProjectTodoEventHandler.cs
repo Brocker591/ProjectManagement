@@ -1,5 +1,4 @@
-﻿using Common.MessageEvents;
-using MassTransit;
+﻿using MassTransit;
 
 namespace NotificationApi.NotificationUseCases.ErrorDeleteProjectTodo;
 
@@ -7,7 +6,7 @@ public class ErrorDeleteProjectTodoEventHandler(IErrorDeleteProjectTodoUseCase u
 {
     public async Task Consume(ConsumeContext<ErrorDeleteProjectTodoEvent> context)
     {
-        var command = new ErrorDeleteProjectTodoCommand(context.Message.message);
+        var command = new ErrorDeleteProjectTodoCommand(context.Message.message, context.Message.eventObject);
 
         await useCase.Execute(command);
     }

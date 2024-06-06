@@ -50,6 +50,21 @@ namespace NotificationApi.Migrations
 
                     b.ToTable("EmailUsers");
                 });
+
+            modelBuilder.Entity("NotificationApi.Models.NotificationEmail", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uuid");
+
+                    b.Property<string>("Email")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("NotificationEmails");
+                });
 #pragma warning restore 612, 618
         }
     }

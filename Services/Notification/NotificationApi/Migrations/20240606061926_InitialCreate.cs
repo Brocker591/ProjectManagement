@@ -26,6 +26,18 @@ namespace NotificationApi.Migrations
                 {
                     table.PrimaryKey("PK_EmailUsers", x => x.Id);
                 });
+
+            migrationBuilder.CreateTable(
+                name: "NotificationEmails",
+                columns: table => new
+                {
+                    Id = table.Column<Guid>(type: "uuid", nullable: false),
+                    Email = table.Column<string>(type: "text", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_NotificationEmails", x => x.Id);
+                });
         }
 
         /// <inheritdoc />
@@ -33,6 +45,9 @@ namespace NotificationApi.Migrations
         {
             migrationBuilder.DropTable(
                 name: "EmailUsers");
+
+            migrationBuilder.DropTable(
+                name: "NotificationEmails");
         }
     }
 }

@@ -16,3 +16,5 @@ global using NotificationApi.NotificationEmailUseCases.GetNotificationEmail;
 global using NotificationApi.NotificationEmailUseCases.UpdateNotificationEmail;
 global using NotificationApi.NotificationEmailUseCases.DeleteNotificationEmail;
 global using NotificationApi.NotificationEmailUseCases.CreateNotificationEmail;
+global using Common.MessageEvents;
+global using System.Text.Json;

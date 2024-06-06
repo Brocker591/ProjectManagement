@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Diagnostics.HealthChecks;
 using System.Reflection;
 using Common.MassTransit;
 using NotificationApi.NotificationUseCases.ErrorDeleteProjectTodo;
+using NotificationApi.NotificationUseCases.ErrorDeleteProject;
 
 
 
@@ -40,7 +41,7 @@ builder.Services.AddTransient<ICreateNotificationEmailUseCase, CreateNotificatio
 
 builder.Services.AddTransient<IErrorCreateProjectTodoUseCase, ErrorCreateProjectTodoUseCase>();
 builder.Services.AddTransient<IErrorDeleteProjectTodoUseCase, ErrorDeleteProjectTodoUseCase>();
-
+builder.Services.AddTransient<IErrorDeleteProjectUseCase, ErrorDeleteProjectUseCase>();
 
 //Service
 builder.Services.AddTransient<ISmtpService, SmtpService>();

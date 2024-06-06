@@ -1,6 +1,6 @@
 ﻿namespace NotificationApi.NotificationEmailUseCases.CreateNotificationEmail;
 
-public record CreateNotificationEmailCommand(MailAddress Email);
+public record CreateNotificationEmailCommand(string Email);
 public record CreateNotificationEmailResult(NotificationEmail data);
 
 public class CreateNotificationEmailUseCase(INotificationEmailRepository repository) : ICreateNotificationEmailUseCase

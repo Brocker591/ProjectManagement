@@ -1,6 +1,9 @@
-﻿namespace NotificationApi.NotificationUseCases.ErrorCreateProjectTodo;
+﻿using Common.MessageEvents;
+using System.Text.Json;
 
-public record ErrorCreateProjectTodoCommand(string message);
+namespace NotificationApi.NotificationUseCases.ErrorCreateProjectTodo;
+
+public record ErrorCreateProjectTodoCommand(string message, CreateProjectTodoEvent eventObject);
 public record ErrorUpdateProjectResult(bool isSuccess);
 
 
@@ -17,10 +20,10 @@ public class ErrorCreateProjectTodoUseCase(
 
         MailModel mailModel = new()
         {
-            ToAddress = notificationEmail.Select(x => x.Email).ToList(),
+            ToAddress = notificationEmail.Select(x => new MailAddress(x.Email)).ToList(),
             FromAddress = fromAddress,
             Subject = "Errors when creating a project task",
-            Body = command.message,
+            Body = $"Message: {command.message}\nEvent: {JsonSerializer.Serialize(command.eventObject)}",
             EmailUsers = await emailUserRepository.GetEmailUsers()
         };
 

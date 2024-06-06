@@ -1,3 +1,3 @@
 ﻿namespace Common.MessageEvents;
 
-public record ErrorDeleteProjectTodoEvent(string message);
+public record ErrorDeleteProjectTodoEvent(string message, DeleteProjectTodoEvent eventObject);

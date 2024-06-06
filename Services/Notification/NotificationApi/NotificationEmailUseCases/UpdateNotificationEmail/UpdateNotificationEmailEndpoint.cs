@@ -22,7 +22,7 @@ public static class UpdateNotificationEmailEndpoint
                     new NotificationEmail
                     {
                         Id = notificationEmailDto.Id,
-                        Email = new MailAddress(notificationEmailDto.Email)
+                        Email = notificationEmailDto.Email
                     });
 
                 UpdateNotificationEmailResult result = await useCase.Execute(command);

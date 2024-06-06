@@ -18,14 +18,14 @@ public class CreateProjectTodoEventHandler(ISender sender, IPublishEndpoint publ
             else
             {
                 // Notification
-                ErrorCreateProjectTodoEvent errorEvent = new("task could not be assigned to a project");
+                ErrorCreateProjectTodoEvent errorEvent = new("task could not be assigned to a project", context.Message);
                 await publishEndpoint.Publish(errorEvent);
             }
         }
         catch (Exception ex)
         {
             // Notification
-            ErrorCreateProjectTodoEvent errorEvent = new(ex.Message);
+            ErrorCreateProjectTodoEvent errorEvent = new(ex.Message, context.Message);
             await publishEndpoint.Publish(errorEvent);
         }
     }

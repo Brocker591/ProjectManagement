@@ -18,7 +18,7 @@ public class DeleteProjectTodoEventHandler(ISender sender, IPublishEndpoint publ
                 logger.LogInformation("An assigned project task could not be deleted");
 
                 // Notification
-                ErrorCreateProjectTodoEvent errorEvent = new("An assigned project task could not be deleted");
+                ErrorDeleteProjectTodoEvent errorEvent = new("An assigned project task could not be deleted", context.Message);
                 await publishEndpoint.Publish(errorEvent);
 
             }
@@ -27,13 +27,13 @@ public class DeleteProjectTodoEventHandler(ISender sender, IPublishEndpoint publ
                 logger.LogInformation("An assigned project task could not be deleted");
 
                 // Notification
-                ErrorCreateProjectTodoEvent errorEvent = new("An assigned project task could not be deleted");
+                ErrorDeleteProjectTodoEvent errorEvent = new("An assigned project task could not be deleted", context.Message);
                 await publishEndpoint.Publish(errorEvent);
             }
         }
         catch (Exception ex)
         {
-            logger.LogError(ex.Message);
+            logger.LogError(ex.Message, context.Message);
         }
     }
 }

@@ -7,7 +7,7 @@ public class ErrorCreateProjectTodoEventHandler(IErrorCreateProjectTodoUseCase u
 {
     public async Task Consume(ConsumeContext<ErrorCreateProjectTodoEvent> context)
     {
-        var command = new ErrorCreateProjectTodoCommand(context.Message.message);
+        var command = new ErrorCreateProjectTodoCommand(context.Message.message, context.Message.eventObject);
 
         await useCase.Execute(command);
     }

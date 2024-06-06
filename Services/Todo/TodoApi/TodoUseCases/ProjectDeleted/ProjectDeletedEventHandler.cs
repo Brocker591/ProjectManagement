@@ -1,8 +1,9 @@
 ﻿using MassTransit;
+using MassTransit.Transports;
 
 namespace TodoApi.TodoUseCases.ProjectDeleted;
 
-public class ProjectDeletedEventHandler(IProjectDeletedUseCase useCase, ILogger<ProjectDeletedEventHandler> logger) : IConsumer<DeleteProjectEvent>
+public class ProjectDeletedEventHandler(IProjectDeletedUseCase useCase, IPublishEndpoint publishEndpoint, ILogger<ProjectDeletedEventHandler> logger) : IConsumer<DeleteProjectEvent>
 {
     public async Task Consume(ConsumeContext<DeleteProjectEvent> context)
     {
@@ -12,17 +13,23 @@ public class ProjectDeletedEventHandler(IProjectDeletedUseCase useCase, ILogger<
             var result = await useCase.Execute(command);
             if (result.isSuccess)
             {
-                logger.LogInformation("DeleteProjectEvent wurde erfolgreich durchgeführt");
+                logger.LogInformation("DeleteProjectEvent was executed successfully");
             }
             else
             {
-                //TODO Notifikation
-                logger.LogError("Ein Fehler ist bei DeleteProjectEvent aufgetreten");
+
+                logger.LogError("An error has occurred with DeleteProjectEvent");
+
+                // Notification
+                ErrorDeleteProjectEvent errorEvent = new("An error has occurred with DeleteProjectEvent", context.Message);
+                await publishEndpoint.Publish(errorEvent);
             }
         }
         catch (Exception ex)
         {
             logger.LogError(ex.Message);
+            ErrorDeleteProjectEvent errorEvent = new($"An error has occurred with DeleteProjectEvent: {ex.Message}", context.Message);
+            await publishEndpoint.Publish(errorEvent);
         }
     }
 }

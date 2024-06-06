@@ -18,7 +18,7 @@ public static class CreateNotificationEmailEndpoint
                 if (!validationResult.IsValid)
                     return Results.ValidationProblem(validationResult.ToDictionary());
 
-                var command = new CreateNotificationEmailCommand(new MailAddress(createNotificationEmailDto.Email));
+                var command = new CreateNotificationEmailCommand(createNotificationEmailDto.Email);
 
                 CreateNotificationEmailResult result = await useCase.Execute(command);
 
