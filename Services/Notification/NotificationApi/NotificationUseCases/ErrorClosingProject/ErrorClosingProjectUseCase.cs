@@ -21,7 +21,7 @@ public class ErrorClosingProjectUseCase(
         {
             ToAddress = notificationEmail.Select(x => new MailAddress(x.Email)).ToList(),
             FromAddress = fromAddress,
-            Subject = "An error occurred when deleting the project",
+            Subject = "An error occurred when closing the project",
             Body = $"Message: {command.message}\nEvent: {JsonSerializer.Serialize(command.eventObject)}",
             EmailUsers = await emailUserRepository.GetEmailUsers()
         };

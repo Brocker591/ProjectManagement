@@ -16,11 +16,6 @@ public class DeleteProjectTodoEventHandler(ISender sender, IPublishEndpoint publ
             if (result.isSuccess)
             {
                 logger.LogInformation("An assigned project task could not be deleted");
-
-                // Notification
-                ErrorDeleteProjectTodoEvent errorEvent = new("An assigned project task could not be deleted", context.Message);
-                await publishEndpoint.Publish(errorEvent);
-
             }
             else
             {

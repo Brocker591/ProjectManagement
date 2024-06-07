@@ -1,4 +1,6 @@
-﻿namespace ProjectApi.Controllers;
+﻿using MassTransit;
+
+namespace ProjectApi.Controllers;
 
 [ApiController]
 [Route("[controller]")]
@@ -97,12 +99,13 @@ public class ProjectsController(ISender sender) : ControllerBase
 
 
     [HttpDelete("{id}")]
-    public async Task<ActionResult> DeleteProject(Guid id)
+    public async Task<ActionResult> DeleteProject(Guid id, IPublishEndpoint publishEndpoint)
     {
         try
         {
             DeleteProjectCommand command = new DeleteProjectCommand(id);
             DeleteProjectResult result = await sender.Send(command);
+
             return NoContent();
 
         }

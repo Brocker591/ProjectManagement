@@ -4,6 +4,8 @@ using System.Reflection;
 using Common.MassTransit;
 using NotificationApi.NotificationUseCases.ErrorDeleteProjectTodo;
 using NotificationApi.NotificationUseCases.ErrorDeleteProject;
+using NotificationApi.NotificationUseCases.ErrorClosingProject;
+using NotificationApi.NotificationUseCases.SendNotification;
 
 
 
@@ -24,6 +26,8 @@ builder.Services.AddScoped<INotificationEmailRepository, NotificationEmailReposi
 //Valitators
 builder.Services.AddScoped<IValidator<CreateEmailUserDto>, CreateEmailUserValidator>();
 builder.Services.AddScoped<IValidator<EmailUser>, UpdateEmailUserValidator>();
+builder.Services.AddScoped<IValidator<CreateNotificationEmailDto>, CreateNotificationEmailValidator>();
+builder.Services.AddScoped<IValidator<NotificationEmailDto>, UpdateNotificationEmailValidator>();
 
 
 //UseCases
@@ -39,9 +43,14 @@ builder.Services.AddTransient<IUpdateNotificationEmailUseCase, UpdateNotificatio
 builder.Services.AddTransient<IDeleteNotificationEmailUseCase, DeleteNotificationEmailUseCase>();
 builder.Services.AddTransient<ICreateNotificationEmailUseCase, CreateNotificationEmailUseCase>();
 
+
 builder.Services.AddTransient<IErrorCreateProjectTodoUseCase, ErrorCreateProjectTodoUseCase>();
 builder.Services.AddTransient<IErrorDeleteProjectTodoUseCase, ErrorDeleteProjectTodoUseCase>();
 builder.Services.AddTransient<IErrorDeleteProjectUseCase, ErrorDeleteProjectUseCase>();
+builder.Services.AddTransient<IErrorClosingProjectUseCase, ErrorClosingProjectUseCase>();
+
+builder.Services.AddTransient<ISendNotificationUseCase, SendNotificationUseCase>();
+
 
 //Service
 builder.Services.AddTransient<ISmtpService, SmtpService>();
@@ -71,7 +80,8 @@ app.MapCreateEmailUserEndpoint()
     .MapDeleteNotificationEmailEndpoint()
     .MapGetNotificationEmailEndpoint()
     .MapGetNotificationEmailsEndpoint()
-    .MapUpdateNotificationEmailEndpoint();
+    .MapUpdateNotificationEmailEndpoint()
+    .MapSendNotificationEndpoint();
 
 
 //Create Database
