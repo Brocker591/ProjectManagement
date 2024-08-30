@@ -1,8 +1,10 @@
 ﻿using MassTransit;
+using Microsoft.AspNetCore.Authorization;
 
 namespace ProjectApi.Controllers;
 
 [ApiController]
+[Authorize]
 [Route("[controller]")]
 public class ProjectsController(ISender sender) : ControllerBase
 {
