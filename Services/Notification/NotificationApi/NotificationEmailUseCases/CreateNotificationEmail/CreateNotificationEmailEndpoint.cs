@@ -34,7 +34,8 @@ public static class CreateNotificationEmailEndpoint
         .WithName("CreateNotificationEmail")
         .ProducesProblem(StatusCodes.Status500InternalServerError)
         .WithSummary("Create NotificationEmail")
-        .WithDescription("Create NotificationEmail");
+        .WithDescription("Create NotificationEmail")
+        .RequireAuthorization();
 
         return routes;
     }

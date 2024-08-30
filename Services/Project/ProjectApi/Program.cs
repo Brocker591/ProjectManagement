@@ -2,10 +2,7 @@ using ProjectInfrastructure;
 using ProjectApplication;
 using HealthChecks.UI.Client;
 using Microsoft.AspNetCore.Diagnostics.HealthChecks;
-using ProjectInfrastructure.Database;
-using Microsoft.AspNetCore.Authentication.JwtBearer;
-using Microsoft.IdentityModel.Tokens;
-using ProjectApi.Settings;
+using Common.Keycloak;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -21,30 +18,7 @@ builder.Services.AddSwaggerGen();
 
 builder.Services.AddAuthorization();
 
-KeycloakSetting keycloakSetting = builder.Configuration.GetSection(nameof(KeycloakSetting)).Get<KeycloakSetting>();
-
-builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
-    .AddJwtBearer(JwtBearerDefaults.AuthenticationScheme, o =>
-    {
-        o.MetadataAddress = keycloakSetting.MetadataAddress;
-        o.Authority = keycloakSetting.Authority;
-        o.Audience = keycloakSetting.Audience;
-
-        o.RequireHttpsMetadata = false;
-
-        o.TokenValidationParameters = new TokenValidationParameters
-        {
-            ValidateAudience = true,
-            ValidateIssuer = true,
-            ValidateLifetime = true,
-            ValidateIssuerSigningKey = true,
-
-            AudienceValidator = (audiences, securityToken, validationParameters) =>
-            {
-                return audiences.Contains(keycloakSetting.Audience);
-            }
-        };
-    });
+builder.Services.AddKeycloak(builder.Configuration);
 
 var app = builder.Build();
 

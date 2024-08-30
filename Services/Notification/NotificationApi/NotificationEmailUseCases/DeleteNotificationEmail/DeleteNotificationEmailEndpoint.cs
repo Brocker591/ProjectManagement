@@ -28,7 +28,8 @@ public static class DeleteNotificationEmailEndpoint
         .WithName("DeleteNotificationEmail")
         .ProducesProblem(StatusCodes.Status500InternalServerError)
         .WithSummary("Delete NotificationEmail")
-        .WithDescription("Delete NotificationEmail");
+        .WithDescription("Delete NotificationEmail")
+        .RequireAuthorization();
 
         return routes;
     }

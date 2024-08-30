@@ -43,7 +43,8 @@ public static class UpdateNotificationEmailEndpoint
         .WithName("UpdateNotificationEmails")
         .ProducesProblem(StatusCodes.Status500InternalServerError)
         .WithSummary("Update NotificationEmails")
-        .WithDescription("Update NotificationEmails");
+        .WithDescription("Update NotificationEmails")
+        .RequireAuthorization();
 
         return routes;
 

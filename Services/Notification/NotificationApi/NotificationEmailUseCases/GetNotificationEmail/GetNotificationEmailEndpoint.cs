@@ -27,7 +27,8 @@ public static class GetNotificationEmailEndpoint
         .WithName("GetNotificationEmail")
         .ProducesProblem(StatusCodes.Status500InternalServerError)
         .WithSummary("Get NotificationEmail")
-        .WithDescription("Get NotificationEmail");
+        .WithDescription("Get NotificationEmail")
+        .RequireAuthorization();
 
         return routes;
     }

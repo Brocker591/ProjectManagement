@@ -6,6 +6,7 @@ using NotificationApi.NotificationUseCases.ErrorDeleteProjectTodo;
 using NotificationApi.NotificationUseCases.ErrorDeleteProject;
 using NotificationApi.NotificationUseCases.ErrorClosingProject;
 using NotificationApi.NotificationUseCases.SendNotification;
+using Common.Keycloak;
 
 
 
@@ -59,7 +60,8 @@ builder.Services.AddTransient<ISmtpService, SmtpService>();
 
 builder.Services.AddMessageBroker(builder.Configuration, Assembly.GetExecutingAssembly());
 
-
+builder.Services.AddAuthorization();
+builder.Services.AddKeycloak(builder.Configuration);
 
 builder.Services.AddHealthChecks().AddNpgSql(builder.Configuration.GetConnectionString("Database")!);
 
@@ -105,6 +107,6 @@ if (app.Environment.IsDevelopment())
 
 app.UseHttpsRedirection();
 
-
+app.UseAuthorization();
 
 app.Run();

@@ -1,4 +1,4 @@
-﻿namespace TodoApi.Settings;
+﻿namespace Common.Keycloak;
 
 public class KeycloakSetting
 {
