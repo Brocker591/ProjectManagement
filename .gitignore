@@ -399,3 +399,4 @@ FodyWeavers.xsd
 
 # Eigene
 appsettings.Development.json
+Services/Notification/NotificationApi/appsettings.Development.json
