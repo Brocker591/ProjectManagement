@@ -2,6 +2,9 @@ using HealthChecks.UI.Client;
 using Microsoft.AspNetCore.Diagnostics.HealthChecks;
 using System.Reflection;
 using Common.MassTransit;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using TodoApi.Settings;
+using Microsoft.IdentityModel.Tokens;
 
 
 var builder = WebApplication.CreateBuilder(args);
@@ -41,6 +44,33 @@ builder.Services.AddHealthChecks().AddNpgSql(builder.Configuration.GetConnection
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
+builder.Services.AddAuthorization();
+
+KeycloakSetting keycloakSetting = builder.Configuration.GetSection(nameof(KeycloakSetting)).Get<KeycloakSetting>();
+
+builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
+    .AddJwtBearer(JwtBearerDefaults.AuthenticationScheme, o =>
+    {
+        o.MetadataAddress = keycloakSetting.MetadataAddress;
+        o.Authority = keycloakSetting.Authority;
+        o.Audience = keycloakSetting.Audience;
+
+        o.RequireHttpsMetadata = false;
+
+        o.TokenValidationParameters = new TokenValidationParameters
+        {
+            ValidateAudience = true,
+            ValidateIssuer = true,
+            ValidateLifetime = true,
+            ValidateIssuerSigningKey = true,
+
+            AudienceValidator = (audiences, securityToken, validationParameters) =>
+            {
+                return audiences.Contains(keycloakSetting.Audience);
+            }
+        };
+    });
+
 var app = builder.Build();
 
 //Endpoints 
@@ -70,5 +100,7 @@ if (app.Environment.IsDevelopment())
     app.UseSwagger();
     app.UseSwaggerUI();
 }
+
+app.UseAuthorization();
 
 app.Run();

@@ -1,6 +1,6 @@
 ﻿namespace ProjectApplication.ProjectUseCases.Queries.GetProjects;
 
-public class GetProjectsHandler(IProjectRepositories repository) : IQueryHandler<GetProjectsQuery, GetProjectsResult>
+public class GetProjectsFromCurrentUserHandler(IProjectRepositories repository) : IQueryHandler<GetProjectsQuery, GetProjectsResult>
 {
     public async Task<GetProjectsResult> Handle(GetProjectsQuery query, CancellationToken cancellationToken)
     {

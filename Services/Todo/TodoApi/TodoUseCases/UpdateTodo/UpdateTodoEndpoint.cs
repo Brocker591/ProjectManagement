@@ -44,7 +44,8 @@ public static class UpdateTodoEndpoint
 .WithName("UpdateTasks")
 .ProducesProblem(StatusCodes.Status500InternalServerError)
 .WithSummary("Update Tasks")
-.WithDescription("Update Tasks");
+.WithDescription("Update Tasks")
+.RequireAuthorization();
 
         return routes;
     }

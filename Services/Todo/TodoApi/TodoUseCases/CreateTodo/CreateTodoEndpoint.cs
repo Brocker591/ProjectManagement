@@ -1,3 +1,5 @@
+using System.Security.Claims;
+
 namespace TodoApi.TodoUseCases.CreateTodo;
 
 public record CreateTodoDto(string Desciption, Guid? ResponsibleUser, List<Guid>? EditorUsers, Guid? ProjectId);
@@ -7,7 +9,7 @@ public static class CreateTodoEndpoint
 {
     public static IEndpointRouteBuilder MapCreateTodoEndpoint(this IEndpointRouteBuilder routes)
     {
-        routes.MapPost("/tasks", async (CreateTodoDto todoDto, ICreateTodoUseCase useCase, IValidator<CreateTodoDto> validator) =>
+        routes.MapPost("/tasks", async (CreateTodoDto todoDto, ICreateTodoUseCase useCase, IValidator<CreateTodoDto> validator, HttpContext httpContext) =>
         {
             try
             {
@@ -17,7 +19,19 @@ public static class CreateTodoEndpoint
                     return Results.ValidationProblem(validationResult.ToDictionary());
 
 
+                 Guid userId = Guid.Parse(httpContext.User.FindFirst(ClaimTypes.NameIdentifier).Value);
+
+                if (todoDto.ResponsibleUser is null)
+                    todoDto = new CreateTodoDto(todoDto.Desciption, userId, todoDto.EditorUsers, todoDto.ProjectId);
+
+                if(todoDto.EditorUsers is null)
+                    todoDto = new CreateTodoDto(todoDto.Desciption, todoDto.ResponsibleUser, new List<Guid> { userId }, todoDto.ProjectId);
+
+
                 var command = todoDto.Adapt<CreateTodoCommand>();
+
+
+
 
                 CreateTodoResult result = await useCase.Execute(command);
 
@@ -33,7 +47,8 @@ public static class CreateTodoEndpoint
         .WithName("CreateTasks")
         .ProducesProblem(StatusCodes.Status500InternalServerError)
         .WithSummary("Create Tasks")
-        .WithDescription("Create Tasks");
+        .WithDescription("Create Tasks")
+        .RequireAuthorization();
 
         return routes;
     }

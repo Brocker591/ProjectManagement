@@ -22,7 +22,8 @@ public static class GetTodosEndpoint
     .WithName("GetTasks")
     .ProducesProblem(StatusCodes.Status500InternalServerError)
     .WithSummary("Get Tasks")
-    .WithDescription("Get Tasks");
+    .WithDescription("Get Tasks")
+    .RequireAuthorization();
 
         return routes;
     }
