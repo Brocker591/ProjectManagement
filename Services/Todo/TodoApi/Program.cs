@@ -4,7 +4,7 @@ using System.Reflection;
 using Common.MassTransit;
 using Common.Keycloak;
 
-
+const string corsSettings = "AllowedOrigin";
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -44,9 +44,19 @@ builder.Services.AddHealthChecks().AddNpgSql(builder.Configuration.GetConnection
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
+builder.Services.AddCors(options =>
+{
+    options.AddDefaultPolicy(corsBuilder =>
+    {
+        var allowedOrigin = builder.Configuration[corsSettings] ?? throw new InvalidOperationException("AllowedOrigin is not set");
 
+        corsBuilder.WithOrigins(allowedOrigin).AllowAnyHeader().AllowAnyMethod().AllowAnyOrigin();
+    });
+});
 
 var app = builder.Build();
+
+app.UseCors();
 
 //Endpoints 
 app.MapCreateTodoEndpoint()

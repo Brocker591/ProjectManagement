@@ -73,7 +73,7 @@ services:
     environment:
       - ASPNETCORE_ENVIRONMENT=Development
       - ASPNETCORE_HTTP_PORTS=8080
-      - ASPNETCORE_HTTPS_PORTS=8081
+      #- ASPNETCORE_HTTPS_PORTS=8081
       - ConnectionStrings__Database=Server=projectdb;Port=5432;Database=Projects;User Id=postgres;Password=postgres;Include Error Detail=true
       - MessageBroker__Host=amqp://project-mq:5672
       - MessageBroker__UserName=guest
@@ -83,7 +83,7 @@ services:
       - messagebroker
     ports:
       - "6600:8080"
-      - "6660:8081"
+      #- "6660:8081"
     volumes:
       - ${APPDATA}/Microsoft/UserSecrets:/home/app/.microsoft/usersecrets:ro
       - ${APPDATA}/ASP.NET/Https:/home/app/.aspnet/https:ro

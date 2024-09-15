@@ -4,7 +4,11 @@ using HealthChecks.UI.Client;
 using Microsoft.AspNetCore.Diagnostics.HealthChecks;
 using Common.Keycloak;
 
+const string corsSettings = "AllowedOrigin";
+
 var builder = WebApplication.CreateBuilder(args);
+
+
 
 // Add services to the container.
 builder.Services.AddApplicationServices(builder.Configuration).AddInfrastructureServices(builder.Configuration);
@@ -16,6 +20,18 @@ builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
+builder.Services.AddCors(options =>
+{
+    options.AddDefaultPolicy(corsBuilder =>
+    {
+        var allowedOrigin = builder.Configuration[corsSettings] ?? throw new InvalidOperationException("AllowedOrigin is not set");
+
+        corsBuilder.WithOrigins(allowedOrigin).AllowAnyHeader().AllowAnyMethod().AllowAnyOrigin();
+    });
+});
+
+
+
 builder.Services.AddAuthorization();
 
 builder.Services.AddKeycloak(builder.Configuration);
@@ -24,7 +40,7 @@ var app = builder.Build();
 
 await app.InitialiseDatabaseAsync();
 
-
+app.UseCors();
 app.UseHealthChecks("/health", new HealthCheckOptions
 {
     ResponseWriter = UIResponseWriter.WriteHealthCheckUIResponse
@@ -42,5 +58,6 @@ app.UseHttpsRedirection();
 app.UseAuthorization();
 
 app.MapControllers();
+
 
 app.Run();
