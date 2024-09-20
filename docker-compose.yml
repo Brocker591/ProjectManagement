@@ -33,10 +33,17 @@ services:
       context: .
       dockerfile: Services/Notification/NotificationApi/Dockerfile
 
+  userapi:
+    image: ${DOCKER_REGISTRY-}userapi
+    build:
+      context: .
+      dockerfile: Services/User/UserApi/Dockerfile
+
 volumes:
   postgres_todo:
   postgres_project:
   postgres_notification:
+
 
 
 

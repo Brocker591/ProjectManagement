@@ -6,7 +6,8 @@
       "serviceActions": {
         "todoapi": "StartDebugging",
         "projectapi": "StartDebugging",
-        "notificationapi": "StartDebugging"
+        "notificationapi": "StartDebugging",
+        "userapi": "StartDebugging"
       }
     }
   }
