@@ -6,14 +6,13 @@ using System.Net.Http.Headers;
 
 namespace UserApi.Endpoints;
 
-public record AdminUserDto(string username, string password);
 public record UserModel(Guid id, string username, string firstname, string lastname, string email);
 
 public static class GetUserListEndpoint
 {
     public static IEndpointRouteBuilder MapGetUserListEndpoint(this IEndpointRouteBuilder routes)
     {
-        routes.MapPost("/GetUsers", async (AdminUserDto dto, IConfiguration config) =>
+        routes.MapGet("/GetUsers", async (IConfiguration config) =>
         {
             try
             {
@@ -21,14 +20,15 @@ public static class GetUserListEndpoint
                 string urlToken = config.GetSection("KeycloakUserSetting:TokenUrl").Value;
                 string clientId = config.GetSection("KeycloakSetting:Audience").Value;
                 string clientSecret = config.GetSection("KeycloakUserSetting:ClientSecret").Value;
-
+                string username = config.GetSection("KeycloakUserSetting:adminname").Value;
+                string password = config.GetSection("KeycloakUserSetting:password").Value;
 
                 var httpClient = new HttpClient();
 
                 var data = new Dictionary<string, string>
                 {
-                    {"username", dto.username},
-                    {"password", dto.password},
+                    {"username", username},
+                    {"password", password},
                     {"client_id", clientId},
                     {"client_secret" ,clientSecret},
                     {"grant_type", "password"},
