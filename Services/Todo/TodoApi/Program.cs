@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Diagnostics.HealthChecks;
 using System.Reflection;
 using Common.MassTransit;
 using Common.Keycloak;
+using TodoApi.TodoStatusUseCases.GetTodoStatuses;
 
 const string corsSettings = "AllowedOrigin";
 
@@ -17,6 +18,7 @@ builder.Services.AddDbContext<TodoContext>(options =>
 });
 
 builder.Services.AddScoped<ITodoRepository, TodoRepository>();
+builder.Services.AddScoped<ITodoStatusRepository, TodoStatusRepository>();
 
 //Valitators
 builder.Services.AddScoped<IValidator<CreateTodoDto>, CreateTodoValidator>();
@@ -32,6 +34,7 @@ builder.Services.AddTransient<IUpdateTodoUseCase, UpdateTodoUseCase>();
 builder.Services.AddTransient<IDeleteTodoUseCase, DeleteTodoUseCase>();
 builder.Services.AddTransient<IProjectDeletedUseCase, ProjectDeletedUseCase>();
 builder.Services.AddTransient<IProjectClosedUseCase, ProjectClosedUseCase>();
+builder.Services.AddTransient<IGetTodoStatusesUseCase, GetTodoStatusesUseCase>();
 
 
 builder.Services.AddMessageBroker(builder.Configuration, Assembly.GetExecutingAssembly());
@@ -64,7 +67,8 @@ app.MapCreateTodoEndpoint()
     .MapGetTodosEndpoint()
     .MapGetGetTodosByProjectIdEndpoint()
     .MapUpdateTodoEndpoint()
-    .MapDeleteTodoEndpoint();
+    .MapDeleteTodoEndpoint()
+    .MapGetTodoStatuesEndpoint();
 
 
 //Create Database

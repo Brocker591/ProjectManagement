@@ -12,8 +12,8 @@ using TodoApi.Repositories;
 namespace TodoApi.Migrations
 {
     [DbContext(typeof(TodoContext))]
-    [Migration("20240524144500_InitialCreate")]
-    partial class InitialCreate
+    [Migration("20240928114921_InitalCommit")]
+    partial class InitalCommit
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -47,9 +47,46 @@ namespace TodoApi.Migrations
                     b.Property<Guid?>("ResponsibleUser")
                         .HasColumnType("uuid");
 
+                    b.Property<int>("StatusId")
+                        .HasColumnType("integer");
+
                     b.HasKey("Id");
 
                     b.ToTable("Todos");
+                });
+
+            modelBuilder.Entity("TodoApi.Models.TodoStatus", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("integer");
+
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("TodoStatuses");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            Name = "open"
+                        },
+                        new
+                        {
+                            Id = 2,
+                            Name = "doing"
+                        },
+                        new
+                        {
+                            Id = 3,
+                            Name = "done"
+                        });
                 });
 #pragma warning restore 612, 618
         }

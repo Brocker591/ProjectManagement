@@ -32,6 +32,10 @@ public static class UpdateTodoEndpoint
 
                 return Results.NoContent();
             }
+            catch (TodoStatusNotFoundException todoEx)
+            {
+                return Results.NotFound(todoEx.Message);
+            }
             catch (TodoNotFoundException todoEx)
             {
                 return Results.NotFound(todoEx.Message);

@@ -39,6 +39,10 @@ public static class CreateTodoEndpoint
 
                 return Results.Created($"/tasks/{response.data.Id}", response);
             }
+            catch (TodoStatusNotFoundException todoEx)
+            {
+                return Results.NotFound(todoEx.Message);
+            }
             catch (Exception ex)
             {
                 return Results.Problem(detail: "Task could not be created", statusCode: StatusCodes.Status500InternalServerError);
