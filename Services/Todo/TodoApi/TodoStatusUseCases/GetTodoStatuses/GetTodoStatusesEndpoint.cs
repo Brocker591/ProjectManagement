@@ -6,7 +6,7 @@ public static class GetTodoStatusesEndpoint
 {
     public static IEndpointRouteBuilder MapGetTodoStatuesEndpoint(this IEndpointRouteBuilder routes)
     {
-        routes.MapGet("/statuslist", async (IGetTodoStatusesUseCase useCase) =>
+        routes.MapGet("/tasks/statuslist", async (IGetTodoStatusesUseCase useCase) =>
         {
             try
             {

@@ -2,7 +2,7 @@ using System.Security.Claims;
 
 namespace TodoApi.TodoUseCases.CreateTodo;
 
-public record CreateTodoDto(string Desciption, Guid? ResponsibleUser, List<Guid>? EditorUsers, Guid? ProjectId);
+public record CreateTodoDto(string Desciption, int StatusId, Guid? ResponsibleUser, List<Guid>? EditorUsers, Guid? ProjectId);
 public record ResponseCreateTodo(Todo data);
 
 public static class CreateTodoEndpoint
@@ -22,10 +22,10 @@ public static class CreateTodoEndpoint
                  Guid userId = Guid.Parse(httpContext.User.FindFirst(ClaimTypes.NameIdentifier).Value);
 
                 if (todoDto.ResponsibleUser is null)
-                    todoDto = new CreateTodoDto(todoDto.Desciption, userId, todoDto.EditorUsers, todoDto.ProjectId);
+                    todoDto = new CreateTodoDto(todoDto.Desciption, todoDto.StatusId, userId, todoDto.EditorUsers, todoDto.ProjectId);
 
                 if(todoDto.EditorUsers is null)
-                    todoDto = new CreateTodoDto(todoDto.Desciption, todoDto.ResponsibleUser, new List<Guid> { userId }, todoDto.ProjectId);
+                    todoDto = new CreateTodoDto(todoDto.Desciption, todoDto.StatusId, todoDto.ResponsibleUser, new List<Guid> { userId }, todoDto.ProjectId);
 
 
                 var command = todoDto.Adapt<CreateTodoCommand>();
