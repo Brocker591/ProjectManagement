@@ -5,6 +5,8 @@ public class UpdateProjectHandler(IProjectRepositories repository, IMediator med
     public async Task<UpdateProjectResult> Handle(UpdateProjectCommand command, CancellationToken cancellationToken)
     {
         var project = command.ProjectDto.AsModel();
+        project.LastModifiedBy = command.userName;
+        project.LastModified = DateTime.UtcNow;
 
         await repository.UpdateProject(project);
 

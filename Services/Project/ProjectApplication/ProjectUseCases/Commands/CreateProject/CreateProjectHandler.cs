@@ -8,7 +8,8 @@ public class CreateProjectHandler(IProjectRepositories repository) : ICommandHan
             command.projectDto.Name, 
             command.projectDto.ResponsibleUser, 
             command.projectDto.Tasks, 
-            command.projectDto.Users
+            command.projectDto.Users,
+            command.userName
             );
 
         var createdProject = await repository.CreateProject(project);

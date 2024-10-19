@@ -87,9 +87,12 @@ public class ProjectsController(ISender sender) : ControllerBase
     [HttpPost]
     public async Task<ActionResult<ProjectResponse>> CreateProject(ProjectCreateDto dto)
     {
+
+        string userName = this.User.FindFirst(ClaimTypes.Name).Value;
+
         try
         {
-            CreateProjectCommand command = new CreateProjectCommand(dto);
+            CreateProjectCommand command = new CreateProjectCommand(dto, userName);
             CreateProjectResult result = await sender.Send(command);
             return Ok(new ProjectResponse(result.data));
         }
@@ -103,9 +106,11 @@ public class ProjectsController(ISender sender) : ControllerBase
     [HttpPut]
     public async Task<ActionResult> UpdateProject(ProjectDto dto)
     {
+        string userName = this.User.FindFirst(ClaimTypes.Name).Value;
+
         try
         {
-            UpdateProjectCommand command = new UpdateProjectCommand(dto);
+            UpdateProjectCommand command = new UpdateProjectCommand(dto, userName);
             UpdateProjectResult result = await sender.Send(command);
             return NoContent();
 

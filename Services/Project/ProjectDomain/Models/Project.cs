@@ -9,18 +9,20 @@ public class Project : Entity<Guid>
     public List<Guid> Users { get; set; } = new List<Guid>();
     public bool IsClosed { get; set; } = false;
 
-    public static Project Create(string Name, Guid ResponsibleUser, List<Guid> Tasks, List<Guid> Users)
+    public static Project Create(string name, Guid responsibleUser, List<Guid> tasks, List<Guid> users, string userName)
     {
-        ArgumentException.ThrowIfNullOrWhiteSpace(Name);
+        ArgumentException.ThrowIfNullOrWhiteSpace(name);
 
         return new Project
         {
             Id = Guid.NewGuid(),
-            Name = Name,
-            ResponsibleUser = ResponsibleUser,
-            Tasks = Tasks,
-            Users = Users,
-            IsClosed = false
+            Name = name,
+            ResponsibleUser = responsibleUser,
+            Tasks = tasks,
+            Users = users,
+            IsClosed = false,
+            CreateAt = DateTime.UtcNow,
+            CreatedBy = userName,
         };
     }
 }
