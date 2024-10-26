@@ -12,8 +12,8 @@ using TodoApi.Repositories;
 namespace TodoApi.Migrations
 {
     [DbContext(typeof(TodoContext))]
-    [Migration("20240928114921_InitalCommit")]
-    partial class InitalCommit
+    [Migration("20241026191737_InitialCreate")]
+    partial class InitialCreate
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -37,9 +37,6 @@ namespace TodoApi.Migrations
 
                     b.Property<string>("EditorUsers")
                         .HasColumnType("text");
-
-                    b.Property<bool>("IsProcessed")
-                        .HasColumnType("boolean");
 
                     b.Property<Guid?>("ProjectId")
                         .HasColumnType("uuid");

@@ -3,7 +3,7 @@
 public record ProjectClosedCommand(ClosingProjectEvent closingProjectEvent);
 public record ProjectClosedResult(bool isSuccess);
 
-public class ProjectClosedUseCase(ITodoRepository repository, IGetTodosByProjectIdUseCase getTodoByProject) : IProjectClosedUseCase
+public class ProjectClosedUseCase(ITodoRepository repository, ITodoStatusRepository todoStatusRepository, IGetTodosByProjectIdUseCase getTodoByProject) : IProjectClosedUseCase
 {
     public async Task<ProjectClosedResult> Execute(ProjectClosedCommand command)
     {
@@ -13,7 +13,8 @@ public class ProjectClosedUseCase(ITodoRepository repository, IGetTodosByProject
 
         foreach (Todo item in result.data)
         {
-            item.IsProcessed = true;
+            var todoStatuses = await todoStatusRepository.GetTodoStatuses();
+            item.StatusId = todoStatuses.FirstOrDefault(x => x.Name == TodoStatus.Done)!.Id;
             await repository.UpdateTodo(item);
         }
 

@@ -19,7 +19,7 @@ public static class CreateTodoEndpoint
                     return Results.ValidationProblem(validationResult.ToDictionary());
 
 
-                 Guid userId = Guid.Parse(httpContext.User.FindFirst(ClaimTypes.NameIdentifier).Value);
+                 Guid userId = Guid.Parse(httpContext.User.FindFirst(ClaimTypes.NameIdentifier)!.Value);
 
                 if (todoDto.ResponsibleUser is null)
                     todoDto = new CreateTodoDto(todoDto.Desciption, todoDto.StatusId, userId, todoDto.EditorUsers, todoDto.ProjectId);
@@ -43,7 +43,7 @@ public static class CreateTodoEndpoint
             {
                 return Results.NotFound(todoEx.Message);
             }
-            catch (Exception ex)
+            catch (Exception)
             {
                 return Results.Problem(detail: "Task could not be created", statusCode: StatusCodes.Status500InternalServerError);
             }

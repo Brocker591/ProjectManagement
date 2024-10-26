@@ -35,9 +35,6 @@ namespace TodoApi.Migrations
                     b.Property<string>("EditorUsers")
                         .HasColumnType("text");
 
-                    b.Property<bool>("IsProcessed")
-                        .HasColumnType("boolean");
-
                     b.Property<Guid?>("ProjectId")
                         .HasColumnType("uuid");
 

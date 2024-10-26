@@ -20,7 +20,6 @@ public class CreateTodoUseCase(ITodoRepository repository, ITodoStatusRepository
             Desciption = command.Desciption,
             ResponsibleUser = command.ResponsibleUser,
             EditorUsers = command.EditorUsers,
-            IsProcessed = false,
             ProjectId = command.ProjectId
         };
 

@@ -9,7 +9,7 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace TodoApi.Migrations
 {
     /// <inheritdoc />
-    public partial class InitalCommit : Migration
+    public partial class InitialCreate : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -23,7 +23,6 @@ namespace TodoApi.Migrations
                     StatusId = table.Column<int>(type: "integer", nullable: false),
                     ResponsibleUser = table.Column<Guid>(type: "uuid", nullable: true),
                     EditorUsers = table.Column<string>(type: "text", nullable: true),
-                    IsProcessed = table.Column<bool>(type: "boolean", nullable: false),
                     ProjectId = table.Column<Guid>(type: "uuid", nullable: true)
                 },
                 constraints: table =>

@@ -24,7 +24,6 @@ public static class UpdateTodoEndpoint
                     StatusId = todoDto.StatusId,
                     ResponsibleUser = todoDto.ResponsibleUser,
                     EditorUsers = todoDto.EditorUsers,
-                    IsProcessed = todoDto.IsProcessed,
                     ProjectId = todoDto.ProjectId
                 };
 
@@ -42,7 +41,7 @@ public static class UpdateTodoEndpoint
             {
                 return Results.NotFound(todoEx.Message);
             }
-            catch (Exception ex)
+            catch (Exception)
             {
                 return Results.Problem(detail: "Task could not be updated", statusCode: StatusCodes.Status500InternalServerError);
             }

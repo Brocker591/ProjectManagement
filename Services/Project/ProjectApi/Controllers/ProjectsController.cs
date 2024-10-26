@@ -88,7 +88,7 @@ public class ProjectsController(ISender sender) : ControllerBase
     public async Task<ActionResult<ProjectResponse>> CreateProject(ProjectCreateDto dto)
     {
 
-        string userName = this.User.FindFirst(ClaimTypes.Name).Value;
+        string userName = this.User.Identities.Select(x => x.Name).First();
 
         try
         {

@@ -17,7 +17,7 @@ public static class GetTodoStatusesEndpoint
             }
             catch (Exception ex)
             {
-                return Results.Problem(detail: "could not read TaskStatus table", statusCode: StatusCodes.Status500InternalServerError);
+                return Results.Problem(detail: $"could not read TaskStatus table: {ex.ToString()}", statusCode: StatusCodes.Status500InternalServerError);
             }
         })
     .WithName("GetTaskStatuslist")

@@ -10,7 +10,7 @@ public static class Extension
 {
     public static IServiceCollection AddKeycloak(this IServiceCollection services, IConfiguration configuration)
     {
-        KeycloakSetting keycloakSetting = configuration.GetSection(nameof(KeycloakSetting)).Get<KeycloakSetting>();
+        KeycloakSetting keycloakSetting = configuration.GetSection(nameof(KeycloakSetting)).Get<KeycloakSetting>()!;
 
         services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
             .AddJwtBearer(JwtBearerDefaults.AuthenticationScheme, o =>

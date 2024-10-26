@@ -17,7 +17,7 @@ public static class GetTodosByProjectIdEndpoint
             }
             catch (Exception ex)
             {
-                return Results.Problem(detail: "could not read Task table", statusCode: StatusCodes.Status500InternalServerError);
+                return Results.Problem(detail: $"could not read Task table: {ex.ToString()}", statusCode: StatusCodes.Status500InternalServerError);
             }
         })
     .WithName("GetTasksByProjectId")

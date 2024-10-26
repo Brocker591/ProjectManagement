@@ -14,7 +14,7 @@ public static class GetTodosEndpoint
                 ResponseTodos response = new(result.data);
                 return Results.Ok(response);
             }
-            catch (Exception ex)
+            catch (Exception)
             {
                 return Results.Problem(detail: "could not read Task table", statusCode: StatusCodes.Status500InternalServerError);
             }

@@ -30,10 +30,9 @@ public class TodoContext : DbContext
             status.HasKey(x => x.Id);
             status.Property(x => x.Id).ValueGeneratedOnAdd();
             status.HasData( 
-                new TodoStatus { Id = 1 , Name = "open" },
-                new TodoStatus { Id = 2, Name = "doing" },
-                new TodoStatus { Id = 3, Name = "done" });
+                new TodoStatus { Id = 1 , Name = TodoStatus.Open },
+                new TodoStatus { Id = 2, Name = TodoStatus.Doing },
+                new TodoStatus { Id = 3, Name = TodoStatus.Done });
         });
-
     }
 }
