@@ -88,7 +88,7 @@ public class ProjectsController(ISender sender) : ControllerBase
     public async Task<ActionResult<ProjectResponse>> CreateProject(ProjectCreateDto dto)
     {
 
-        string userName = this.User.Identities.Select(x => x.Name).First();
+        string userName = User.Claims.FirstOrDefault(x => x.Type == "preferred_username")?.Value;
 
         try
         {
