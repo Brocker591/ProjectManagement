@@ -1,3 +1,4 @@
+using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 
 namespace TodoApi.TodoUseCases.CreateTodo;
@@ -18,8 +19,15 @@ public static class CreateTodoEndpoint
                 if (!validationResult.IsValid)
                     return Results.ValidationProblem(validationResult.ToDictionary());
 
+                var userIdString = httpContext.User.FindFirstValue(JwtRegisteredClaimNames.Sub);
 
-                 Guid userId = Guid.Parse(httpContext.User.FindFirst(ClaimTypes.NameIdentifier)!.Value);
+                Guid userId;
+
+                if (!Guid.TryParse(userIdString, out userId))
+                {
+                    return Results.Unauthorized();
+
+                }
 
                 if (todoDto.ResponsibleUser is null)
                     todoDto = new CreateTodoDto(todoDto.Desciption, todoDto.StatusId, userId, todoDto.EditorUsers, todoDto.ProjectId);

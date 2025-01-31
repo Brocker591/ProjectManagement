@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
 using System.Reflection;
 
@@ -13,15 +14,15 @@ public static class Extension
         KeycloakSetting keycloakSetting = configuration.GetSection(nameof(KeycloakSetting)).Get<KeycloakSetting>()!;
 
         services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
-            .AddJwtBearer(JwtBearerDefaults.AuthenticationScheme, o =>
+            .AddJwtBearer(JwtBearerDefaults.AuthenticationScheme, options =>
             {
-                o.MetadataAddress = keycloakSetting.MetadataAddress;
-                o.Authority = keycloakSetting.Authority;
-                o.Audience = keycloakSetting.Audience;
+                options.MetadataAddress = keycloakSetting.MetadataAddress;
+                options.Authority = keycloakSetting.Authority;
+                options.Audience = keycloakSetting.Audience;
 
-                o.RequireHttpsMetadata = false;
+                options.RequireHttpsMetadata = false;
 
-                o.TokenValidationParameters = new TokenValidationParameters
+                options.TokenValidationParameters = new TokenValidationParameters
                 {
                     ValidateAudience = true,
                     ValidateIssuer = true,
@@ -33,6 +34,8 @@ public static class Extension
                         return audiences.Contains(keycloakSetting.Audience);
                     }
                 };
+
+                options.MapInboundClaims = false; //Schaltet das default Mapping Verhalten aus. Damit auch sub Claim gelesen werden kann.
             });
 
         return services;
