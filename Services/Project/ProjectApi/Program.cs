@@ -34,7 +34,8 @@ builder.Services.AddCors(options =>
 
 builder.Services.AddAuthorization();
 
-builder.Services.AddKeycloak(builder.Configuration);
+builder.AddKeycloakAuthentication();
+builder.AddKeycloakAuthorization();
 
 var app = builder.Build();
 

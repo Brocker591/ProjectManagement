@@ -23,8 +23,7 @@ public static class GetTodoStatusesEndpoint
     .WithName("GetTaskStatuslist")
     .ProducesProblem(StatusCodes.Status500InternalServerError)
     .WithSummary("Get Task Statuslist")
-    .WithDescription("Get Statuslist")
-    .RequireAuthorization();
+    .WithDescription("Get Statuslist");
 
         return routes;
     }

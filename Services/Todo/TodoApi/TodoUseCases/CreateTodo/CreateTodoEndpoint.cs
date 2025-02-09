@@ -32,7 +32,7 @@ public static class CreateTodoEndpoint
                 if (todoDto.ResponsibleUser is null)
                     todoDto = new CreateTodoDto(todoDto.Desciption, todoDto.StatusId, userId, todoDto.EditorUsers, todoDto.ProjectId);
 
-                if(todoDto.EditorUsers is null)
+                if (todoDto.EditorUsers is null)
                     todoDto = new CreateTodoDto(todoDto.Desciption, todoDto.StatusId, todoDto.ResponsibleUser, new List<Guid> { userId }, todoDto.ProjectId);
 
 
@@ -59,8 +59,7 @@ public static class CreateTodoEndpoint
         .WithName("CreateTasks")
         .ProducesProblem(StatusCodes.Status500InternalServerError)
         .WithSummary("Create Tasks")
-        .WithDescription("Create Tasks")
-        .RequireAuthorization();
+        .WithDescription("Create Tasks");
 
         return routes;
     }

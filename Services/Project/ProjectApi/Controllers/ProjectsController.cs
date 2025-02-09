@@ -1,4 +1,5 @@
-﻿using MassTransit;
+﻿using Common.Keycloak;
+using MassTransit;
 using Microsoft.AspNetCore.Authorization;
 using ProjectApplication.ProjectUseCases.Queries.GetProjectsFromCurrentUser;
 using System.Diagnostics;
@@ -7,8 +8,9 @@ using System.Security.Claims;
 namespace ProjectApi.Controllers;
 
 [ApiController]
-[Authorize]
+[Authorize(Policy = Policies.UserAccess)]
 [Route("[controller]")]
+
 public class ProjectsController(ISender sender) : ControllerBase
 {
 

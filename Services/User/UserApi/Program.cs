@@ -7,7 +7,8 @@ var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.AddHealthChecks();
 builder.Services.AddAuthorization();
-builder.Services.AddKeycloak(builder.Configuration);
+builder.AddKeycloakAuthentication();
+builder.AddKeycloakAuthorization();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 

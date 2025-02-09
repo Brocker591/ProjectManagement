@@ -23,8 +23,7 @@ public static class GetTodosByProjectIdEndpoint
     .WithName("GetTasksByProjectId")
     .ProducesProblem(StatusCodes.Status500InternalServerError)
     .WithSummary("Get Tasks by ProjectId")
-    .WithDescription("Get Tasks by ProjectId")
-    .RequireAuthorization();
+    .WithDescription("Get Tasks by ProjectId");
 
         return routes;
     }

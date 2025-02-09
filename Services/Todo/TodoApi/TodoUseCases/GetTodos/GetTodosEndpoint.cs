@@ -1,4 +1,6 @@
-﻿namespace TodoApi.TodoUseCases.GetTodos;
+﻿using Common.Keycloak;
+
+namespace TodoApi.TodoUseCases.GetTodos;
 
 public record ResponseTodos(List<Todo> data);
 public static class GetTodosEndpoint
@@ -22,8 +24,8 @@ public static class GetTodosEndpoint
     .WithName("GetTasks")
     .ProducesProblem(StatusCodes.Status500InternalServerError)
     .WithSummary("Get Tasks")
-    .WithDescription("Get Tasks")
-    .RequireAuthorization();
+    .WithDescription("Get Tasks");
+
 
         return routes;
     }

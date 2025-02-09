@@ -61,7 +61,8 @@ builder.Services.AddTransient<ISmtpService, SmtpService>();
 builder.Services.AddMessageBroker(builder.Configuration, Assembly.GetExecutingAssembly());
 
 builder.Services.AddAuthorization();
-builder.Services.AddKeycloak(builder.Configuration);
+builder.AddKeycloakAuthentication();
+builder.AddKeycloakAuthorization();
 
 builder.Services.AddHealthChecks().AddNpgSql(builder.Configuration.GetConnectionString("Database")!);
 

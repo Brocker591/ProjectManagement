@@ -13,7 +13,7 @@ public static class UpdateTodoEndpoint
             {
                 //Minimal Api hat keine Validierung aus diesem Grund wird FluentValidation verwendet
                 ValidationResult validationResult = await validator.ValidateAsync(todoDto);
-                if(!validationResult.IsValid)
+                if (!validationResult.IsValid)
                     return Results.ValidationProblem(validationResult.ToDictionary());
 
 
@@ -49,8 +49,7 @@ public static class UpdateTodoEndpoint
 .WithName("UpdateTasks")
 .ProducesProblem(StatusCodes.Status500InternalServerError)
 .WithSummary("Update Tasks")
-.WithDescription("Update Tasks")
-.RequireAuthorization();
+.WithDescription("Update Tasks");
 
         return routes;
     }
