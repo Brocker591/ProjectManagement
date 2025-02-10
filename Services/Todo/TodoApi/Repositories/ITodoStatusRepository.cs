@@ -6,7 +6,7 @@ namespace TodoApi.Repositories
         Task<TodoStatus> CreateTodoStatus(TodoStatus todoStatus);
         Task DeleteTodo(int id);
         Task<TodoStatus> GetTodoStatus(int todoStatusId);
-        Task<List<TodoStatus>> GetTodoStatuses();
+        Task<List<TodoStatus>> GetTodoStatusList();
         Task UpdateTodoStatus(TodoStatus todoStatus);
     }
 }

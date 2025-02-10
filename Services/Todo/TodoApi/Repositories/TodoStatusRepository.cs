@@ -10,7 +10,7 @@
             return todoStatus;
         }
 
-        public async Task<List<TodoStatus>> GetTodoStatuses()
+        public async Task<List<TodoStatus>> GetTodoStatusList()
         {
             var todoStatus = await dbContext.TodoStatuses.ToListAsync();
             return todoStatus;

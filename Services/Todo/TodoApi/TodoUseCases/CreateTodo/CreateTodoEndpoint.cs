@@ -10,51 +10,36 @@ public static class CreateTodoEndpoint
 {
     public static IEndpointRouteBuilder MapCreateTodoEndpoint(this IEndpointRouteBuilder routes)
     {
-        routes.MapPost("/tasks", async (CreateTodoDto todoDto, ICreateTodoUseCase useCase, IValidator<CreateTodoDto> validator, HttpContext httpContext) =>
+        routes.MapPost("/", async (CreateTodoDto todoDto, ICreateTodoUseCase useCase, IValidator<CreateTodoDto> validator, HttpContext httpContext) =>
         {
-            try
+            //Minimal Api hat keine Validierung aus diesem Grund wird FluentValidation verwendet
+            ValidationResult validationResult = await validator.ValidateAsync(todoDto);
+            if (!validationResult.IsValid)
+                return Results.ValidationProblem(validationResult.ToDictionary());
+
+            var userIdString = httpContext.User.FindFirstValue(JwtRegisteredClaimNames.Sub);
+
+            Guid userId;
+
+            if (!Guid.TryParse(userIdString, out userId))
             {
-                //Minimal Api hat keine Validierung aus diesem Grund wird FluentValidation verwendet
-                ValidationResult validationResult = await validator.ValidateAsync(todoDto);
-                if (!validationResult.IsValid)
-                    return Results.ValidationProblem(validationResult.ToDictionary());
+                return Results.Unauthorized();
 
-                var userIdString = httpContext.User.FindFirstValue(JwtRegisteredClaimNames.Sub);
-
-                Guid userId;
-
-                if (!Guid.TryParse(userIdString, out userId))
-                {
-                    return Results.Unauthorized();
-
-                }
-
-                if (todoDto.ResponsibleUser is null)
-                    todoDto = new CreateTodoDto(todoDto.Desciption, todoDto.StatusId, userId, todoDto.EditorUsers, todoDto.ProjectId);
-
-                if (todoDto.EditorUsers is null)
-                    todoDto = new CreateTodoDto(todoDto.Desciption, todoDto.StatusId, todoDto.ResponsibleUser, new List<Guid> { userId }, todoDto.ProjectId);
-
-
-                var command = todoDto.Adapt<CreateTodoCommand>();
-
-
-
-
-                CreateTodoResult result = await useCase.Execute(command);
-
-                ResponseCreateTodo response = new(result.data);
-
-                return Results.Created($"/tasks/{response.data.Id}", response);
             }
-            catch (TodoStatusNotFoundException todoEx)
-            {
-                return Results.NotFound(todoEx.Message);
-            }
-            catch (Exception)
-            {
-                return Results.Problem(detail: "Task could not be created", statusCode: StatusCodes.Status500InternalServerError);
-            }
+
+            if (todoDto.ResponsibleUser is null)
+                todoDto = new CreateTodoDto(todoDto.Desciption, todoDto.StatusId, userId, todoDto.EditorUsers, todoDto.ProjectId);
+
+            if (todoDto.EditorUsers is null)
+                todoDto = new CreateTodoDto(todoDto.Desciption, todoDto.StatusId, todoDto.ResponsibleUser, new List<Guid> { userId }, todoDto.ProjectId);
+
+            var command = todoDto.Adapt<CreateTodoCommand>();
+
+            CreateTodoResult result = await useCase.Execute(command);
+
+            ResponseCreateTodo response = new(result.data);
+
+            return Results.Created($"/tasks/{response.data.Id}", response);
         })
         .WithName("CreateTasks")
         .ProducesProblem(StatusCodes.Status500InternalServerError)

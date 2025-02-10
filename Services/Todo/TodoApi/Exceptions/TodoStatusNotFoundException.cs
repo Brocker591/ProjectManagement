@@ -2,7 +2,7 @@
 
 public class TodoStatusNotFoundException : Exception
 {
-public TodoStatusNotFoundException(int id) : base($"Status with Id {id} was not found.")
+public TodoStatusNotFoundException(int id) : base($"Task status with Id {id} was not found.")
 {
 
 }

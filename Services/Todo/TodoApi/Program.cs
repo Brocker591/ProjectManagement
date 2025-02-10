@@ -3,7 +3,9 @@ using Microsoft.AspNetCore.Diagnostics.HealthChecks;
 using System.Reflection;
 using Common.MassTransit;
 using Common.Keycloak;
-using TodoApi.TodoStatusUseCases.GetTodoStatuses;
+using TodoApi.TodoUseCases;
+using TodoApi.TodoUseCases.GetTodoStatusList;
+using TodoApi.ErrorHandling;
 
 const string corsSettings = "AllowedOrigin";
 
@@ -11,6 +13,8 @@ var builder = WebApplication.CreateBuilder(args);
 
 //Repositories and DbContext
 var connectionString = builder.Configuration.GetConnectionString("Database");
+
+builder.Services.AddProblemDetails().AddExceptionHandler<GlobalExceptionHandler>();
 
 builder.Services.AddDbContext<TodoContext>(options =>
 {
@@ -34,11 +38,11 @@ builder.Services.AddTransient<IUpdateTodoUseCase, UpdateTodoUseCase>();
 builder.Services.AddTransient<IDeleteTodoUseCase, DeleteTodoUseCase>();
 builder.Services.AddTransient<IProjectDeletedUseCase, ProjectDeletedUseCase>();
 builder.Services.AddTransient<IProjectClosedUseCase, ProjectClosedUseCase>();
-builder.Services.AddTransient<IGetTodoStatusesUseCase, GetTodoStatusesUseCase>();
+builder.Services.AddTransient<IGetTodoStatusListUseCase, GetTodoStatusListUseCase>();
 
 
 builder.Services.AddMessageBroker(builder.Configuration, Assembly.GetExecutingAssembly());
-builder.Services.AddAuthorization();
+//builder.Services.AddAuthorization();
 builder.AddKeycloakAuthentication();
 builder.AddKeycloakAuthorization();
 
@@ -62,15 +66,11 @@ var app = builder.Build();
 
 app.UseCors();
 
-//Endpoints 
-app.MapCreateTodoEndpoint()
-    .MapGetTodoEndpoint()
-    .MapGetTodosEndpoint()
-    .MapGetGetTodosByProjectIdEndpoint()
-    .MapUpdateTodoEndpoint()
-    .MapDeleteTodoEndpoint()
-    .MapGetTodoStatuesEndpoint();
+//Endpoints
+app.MapTodoEndpoints();
 
+app.UseExceptionHandler();
+builder.Services.AddProblemDetails();
 
 //Create Database
 using (var scope = app.Services.CreateScope()) 

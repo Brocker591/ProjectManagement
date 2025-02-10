@@ -5,24 +5,13 @@ public static class GetTodoEndpoint
 {
     public static IEndpointRouteBuilder MapGetTodoEndpoint(this IEndpointRouteBuilder routes)
     {
-        routes.MapGet("/tasks/{id}", async (Guid id, IGetTodoUseCase useCase) =>
+        routes.MapGet("/{id}", async (Guid id, IGetTodoUseCase useCase) =>
         {
-            try
-            {
-                GetTodoQuery query = new(id);
-                GetTodoResult result = await useCase.Execute(query);
+            GetTodoQuery query = new(id);
+            GetTodoResult result = await useCase.Execute(query);
 
-                ResponseTodo response = new(result.data);
-                return Results.Ok(response);
-            }
-            catch(TodoNotFoundException todoEx)
-            {
-                return Results.NotFound(todoEx.Message);
-            }
-            catch (Exception ex)
-            {
-                return Results.BadRequest(ex.Message);
-            }
+            ResponseTodo response = new(result.data);
+            return Results.Ok(response);
         })
         .WithName("GetTask")
         .ProducesProblem(StatusCodes.Status500InternalServerError)

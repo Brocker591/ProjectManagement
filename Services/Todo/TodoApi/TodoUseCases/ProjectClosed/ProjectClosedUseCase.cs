@@ -13,7 +13,7 @@ public class ProjectClosedUseCase(ITodoRepository repository, ITodoStatusReposit
 
         foreach (Todo item in result.data)
         {
-            var todoStatuses = await todoStatusRepository.GetTodoStatuses();
+            var todoStatuses = await todoStatusRepository.GetTodoStatusList();
             item.StatusId = todoStatuses.FirstOrDefault(x => x.Name == TodoStatus.Done)!.Id;
             await repository.UpdateTodo(item);
         }
