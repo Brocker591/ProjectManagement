@@ -10,14 +10,14 @@ public static class CreateTodoEndpoint
 {
     public static IEndpointRouteBuilder MapCreateTodoEndpoint(this IEndpointRouteBuilder routes)
     {
-        routes.MapPost("/", async (CreateTodoDto todoDto, ICreateTodoUseCase useCase, IValidator<CreateTodoDto> validator, HttpContext httpContext) =>
+        routes.MapPost("/", async (CreateTodoDto todoDto, ICreateTodoUseCase useCase, IValidator<CreateTodoDto> validator, ClaimsPrincipal user) =>
         {
             //Minimal Api hat keine Validierung aus diesem Grund wird FluentValidation verwendet
             ValidationResult validationResult = await validator.ValidateAsync(todoDto);
             if (!validationResult.IsValid)
                 return Results.ValidationProblem(validationResult.ToDictionary());
 
-            var userIdString = httpContext.User.FindFirstValue(JwtRegisteredClaimNames.Sub);
+            var userIdString = user.FindFirstValue(JwtRegisteredClaimNames.Sub);
 
             Guid userId;
 
@@ -27,13 +27,23 @@ public static class CreateTodoEndpoint
 
             }
 
+            string? tenant = user.FindFirstValue(Tenant.TenantName);
+
             if (todoDto.ResponsibleUser is null)
                 todoDto = new CreateTodoDto(todoDto.Desciption, todoDto.StatusId, userId, todoDto.EditorUsers, todoDto.ProjectId);
 
             if (todoDto.EditorUsers is null)
                 todoDto = new CreateTodoDto(todoDto.Desciption, todoDto.StatusId, todoDto.ResponsibleUser, new List<Guid> { userId }, todoDto.ProjectId);
 
-            var command = todoDto.Adapt<CreateTodoCommand>();
+            CreateTodoCommand command = new(
+                todoDto.Desciption,
+                todoDto.StatusId,
+                todoDto.ResponsibleUser ?? userId,
+                todoDto.EditorUsers ?? new List<Guid> { userId },
+                todoDto.ProjectId,
+                tenant ?? Tenant.TenantUnknown);
+
+
 
             CreateTodoResult result = await useCase.Execute(command);
 

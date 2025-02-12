@@ -2,7 +2,7 @@
 
 namespace TodoApi.TodoUseCases.CreateTodo;
 
-public record CreateTodoCommand(string Desciption, int StatusId, Guid? ResponsibleUser, List<Guid>? EditorUsers, Guid? ProjectId);
+public record CreateTodoCommand(string Desciption, int StatusId, Guid? ResponsibleUser, List<Guid>? EditorUsers, Guid? ProjectId, string? Tenant);
 public record CreateTodoResult(Todo data);
 
 public class CreateTodoUseCase(ITodoRepository repository, ITodoStatusRepository statusRepository, IPublishEndpoint publishEndpoint) : ICreateTodoUseCase
@@ -20,7 +20,8 @@ public class CreateTodoUseCase(ITodoRepository repository, ITodoStatusRepository
             Desciption = command.Desciption,
             ResponsibleUser = command.ResponsibleUser,
             EditorUsers = command.EditorUsers,
-            ProjectId = command.ProjectId
+            ProjectId = command.ProjectId,
+            Tenant = command.Tenant ?? Tenant.TenantUnknown
         };
 
         var createdTodo = await repository.CreateTodo(todo);

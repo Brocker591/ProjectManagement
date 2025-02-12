@@ -1,4 +1,6 @@
-﻿namespace TodoApi.TodoUseCases.UpdateTodo;
+﻿using System.Security.Claims;
+
+namespace TodoApi.TodoUseCases.UpdateTodo;
 
 public record UpdateTodoDto(Guid Id, string Desciption, int StatusId, Guid? ResponsibleUser, List<Guid>? EditorUsers, bool IsProcessed, Guid? ProjectId);
 
@@ -7,13 +9,14 @@ public static class UpdateTodoEndpoint
 {
     public static IEndpointRouteBuilder MapUpdateTodoEndpoint(this IEndpointRouteBuilder routes)
     {
-        routes.MapPut("/", async (UpdateTodoDto todoDto, IUpdateTodoUseCase useCase, IValidator<UpdateTodoDto> validator) =>
+        routes.MapPut("/", async (UpdateTodoDto todoDto, IUpdateTodoUseCase useCase, IValidator<UpdateTodoDto> validator, ClaimsPrincipal user) =>
         {
             //Minimal Api hat keine Validierung aus diesem Grund wird FluentValidation verwendet
             ValidationResult validationResult = await validator.ValidateAsync(todoDto);
             if (!validationResult.IsValid)
                 return Results.ValidationProblem(validationResult.ToDictionary());
 
+            var tenants = user.FindFirstValue(Tenant.TenantName);
 
             Todo todo = new()
             {
@@ -22,7 +25,8 @@ public static class UpdateTodoEndpoint
                 StatusId = todoDto.StatusId,
                 ResponsibleUser = todoDto.ResponsibleUser,
                 EditorUsers = todoDto.EditorUsers,
-                ProjectId = todoDto.ProjectId
+                ProjectId = todoDto.ProjectId,
+                Tenant = tenants ?? Tenant.TenantUnknown
             };
 
             UpdateTodoCommand command = new(todo);
