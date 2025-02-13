@@ -1,6 +1,6 @@
 ﻿namespace TodoApi.TodoUseCases.CreateTodo;
 
-public class CreateTodoValidator : AbstractValidator<CreateTodoDto>
+internal sealed class CreateTodoValidator : AbstractValidator<CreateTodoDto>
 {
     public CreateTodoValidator()
     {

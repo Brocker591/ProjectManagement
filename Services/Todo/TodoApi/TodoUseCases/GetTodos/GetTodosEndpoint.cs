@@ -1,7 +1,10 @@
-﻿namespace TodoApi.TodoUseCases.GetTodos;
+﻿using System.Linq;
 
-public record ResponseTodos(List<Todo> data);
-public static class GetTodosEndpoint
+namespace TodoApi.TodoUseCases.GetTodos;
+
+internal record TodoDto(Guid Id, string Desciption, int StatusId, Guid ResponsibleUser, List<Guid> EditorUsers, Guid? ProjectId);
+internal record ResponseTodos(List<TodoDto> data);
+internal static class GetTodosEndpoint
 {
     public static IEndpointRouteBuilder MapGetTodosEndpoint(this IEndpointRouteBuilder routes)
     {
@@ -9,7 +12,18 @@ public static class GetTodosEndpoint
         {
             GetTodosResult result = await useCase.Execute();
 
-            ResponseTodos response = new(result.data);
+            List<TodoDto> dtos = result.data.Select(todo => 
+            new TodoDto(
+                todo.Id, 
+                todo.Desciption, 
+                todo.StatusId, 
+                todo.ResponsibleUser,
+                todo.EditorUsers,
+                todo.ProjectId))
+            .ToList();
+
+            ResponseTodos response = new(dtos);
+
             return Results.Ok(response);
 
         }).WithName("GetTasks")

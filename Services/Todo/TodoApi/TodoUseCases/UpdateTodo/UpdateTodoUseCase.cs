@@ -3,7 +3,7 @@
 public record UpdateTodoCommand(Todo todo);
 public record UpdateTodoResult();
 
-public class UpdateTodoUseCase(ITodoRepository repository, ITodoStatusRepository statusRepository) : IUpdateTodoUseCase
+internal sealed class UpdateTodoUseCase(ITodoRepository repository, ITodoStatusRepository statusRepository) : IUpdateTodoUseCase
 {
     public async Task<UpdateTodoResult> Execute(UpdateTodoCommand command)
     {

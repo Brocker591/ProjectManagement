@@ -1,8 +1,10 @@
-﻿using System.Security.Claims;
+﻿using Common.Authorization;
+using System.Security.Claims;
+
 
 namespace TodoApi.TodoUseCases.UpdateTodo;
 
-public record UpdateTodoDto(Guid Id, string Desciption, int StatusId, Guid? ResponsibleUser, List<Guid>? EditorUsers, bool IsProcessed, Guid? ProjectId);
+public record UpdateTodoDto(Guid Id, string Desciption, int StatusId, Guid ResponsibleUser, List<Guid> EditorUsers, bool IsProcessed, Guid? ProjectId);
 
 
 public static class UpdateTodoEndpoint
@@ -16,7 +18,10 @@ public static class UpdateTodoEndpoint
             if (!validationResult.IsValid)
                 return Results.ValidationProblem(validationResult.ToDictionary());
 
-            var tenants = user.FindFirstValue(Tenant.TenantName);
+            var userAndTenant = user.GetUserIdAndTenant();
+
+            if (userAndTenant is null)
+                return Results.Unauthorized();
 
             Todo todo = new()
             {
@@ -26,7 +31,7 @@ public static class UpdateTodoEndpoint
                 ResponsibleUser = todoDto.ResponsibleUser,
                 EditorUsers = todoDto.EditorUsers,
                 ProjectId = todoDto.ProjectId,
-                Tenant = tenants ?? Tenant.TenantUnknown
+                Tenant = userAndTenant.Value.Value
             };
 
             UpdateTodoCommand command = new(todo);

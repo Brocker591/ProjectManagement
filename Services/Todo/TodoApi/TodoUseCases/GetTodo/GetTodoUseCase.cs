@@ -3,7 +3,7 @@
 public record GetTodoQuery(Guid id);
 public record GetTodoResult(Todo data);
 
-public class GetTodoUseCase(ITodoRepository repository) : IGetTodoUseCase
+internal sealed class GetTodoUseCase(ITodoRepository repository) : IGetTodoUseCase
 {
     public async Task<GetTodoResult> Execute(GetTodoQuery query)
     {

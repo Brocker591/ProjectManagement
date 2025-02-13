@@ -1,11 +1,12 @@
-﻿using MassTransit;
+﻿using Common.Authorization;
+using MassTransit;
 
 namespace TodoApi.TodoUseCases.CreateTodo;
 
-public record CreateTodoCommand(string Desciption, int StatusId, Guid? ResponsibleUser, List<Guid>? EditorUsers, Guid? ProjectId, string? Tenant);
+public record CreateTodoCommand(string Desciption, int StatusId, Guid ResponsibleUser, List<Guid> EditorUsers, Guid? ProjectId, string Tenant);
 public record CreateTodoResult(Todo data);
 
-public class CreateTodoUseCase(ITodoRepository repository, ITodoStatusRepository statusRepository, IPublishEndpoint publishEndpoint) : ICreateTodoUseCase
+internal sealed class CreateTodoUseCase(ITodoRepository repository, ITodoStatusRepository statusRepository, IPublishEndpoint publishEndpoint) : ICreateTodoUseCase
 {
     public async Task<CreateTodoResult> Execute(CreateTodoCommand command)
     {
@@ -21,7 +22,7 @@ public class CreateTodoUseCase(ITodoRepository repository, ITodoStatusRepository
             ResponsibleUser = command.ResponsibleUser,
             EditorUsers = command.EditorUsers,
             ProjectId = command.ProjectId,
-            Tenant = command.Tenant ?? Tenant.TenantUnknown
+            Tenant = command.Tenant ?? TenantConstants.TenantUnknown
         };
 
         var createdTodo = await repository.CreateTodo(todo);

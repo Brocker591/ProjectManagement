@@ -33,12 +33,13 @@ namespace TodoApi.Migrations
                         .HasColumnType("text");
 
                     b.Property<string>("EditorUsers")
+                        .IsRequired()
                         .HasColumnType("text");
 
                     b.Property<Guid?>("ProjectId")
                         .HasColumnType("uuid");
 
-                    b.Property<Guid?>("ResponsibleUser")
+                    b.Property<Guid>("ResponsibleUser")
                         .HasColumnType("uuid");
 
                     b.Property<int>("StatusId")

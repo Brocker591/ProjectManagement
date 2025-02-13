@@ -5,7 +5,7 @@ namespace TodoApi.TodoUseCases.DeleteTodo;
 public record DeleteTodoCommand(Guid id);
 public record DeleteTodoResult();
 
-public class DeleteTodoUseCase(ITodoRepository repository, IPublishEndpoint publishEndpoint) : IDeleteTodoUseCase
+internal sealed class DeleteTodoUseCase(ITodoRepository repository, IPublishEndpoint publishEndpoint) : IDeleteTodoUseCase
 {
     public async Task<DeleteTodoResult> Execute(DeleteTodoCommand command)
     {

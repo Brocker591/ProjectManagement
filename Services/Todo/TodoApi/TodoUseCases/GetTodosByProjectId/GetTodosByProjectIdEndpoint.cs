@@ -1,17 +1,28 @@
 ﻿namespace TodoApi.TodoUseCases.GetTodosByProjectId;
 
-public record ResponseTodosByProjectId(List<Todo> data);
-public static class GetTodosByProjectIdEndpoint
+
+internal record TodoDto(Guid Id, string Desciption, int StatusId, Guid ResponsibleUser, List<Guid> EditorUsers, Guid? ProjectId);
+internal record ResponseTodosByProjectId(List<TodoDto> data);
+internal static class GetTodosByProjectIdEndpoint
 {
     public static IEndpointRouteBuilder MapGetGetTodosByProjectIdEndpoint(this IEndpointRouteBuilder routes)
     {
         routes.MapGet("/ByProjectId/{projectId}", async (Guid projectId, IGetTodosByProjectIdUseCase useCase) =>
         {
-                GetTodosByProjectIdQuery query = new(projectId);
-                GetTodosByProjectIdResult result = await useCase.Execute(query);
+            GetTodosByProjectIdQuery query = new(projectId);
+            GetTodosByProjectIdResult result = await useCase.Execute(query);
 
-                ResponseTodos response = new(result.data);
-                return Results.Ok(response);
+            List<TodoDto> dtos = result.data.Select(todo => new TodoDto(
+                todo.Id,
+                todo.Desciption,
+                todo.StatusId,
+                todo.ResponsibleUser,
+                todo.EditorUsers,
+                todo.ProjectId))
+            .ToList();
+
+            ResponseTodosByProjectId response = new(dtos);
+            return Results.Ok(response);
 
         }).WithName("GetTasksByProjectId")
           .ProducesProblem(StatusCodes.Status500InternalServerError)

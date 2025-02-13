@@ -12,7 +12,7 @@ using TodoApi.Repositories;
 namespace TodoApi.Migrations
 {
     [DbContext(typeof(TodoContext))]
-    [Migration("20241026191737_InitialCreate")]
+    [Migration("20250213121952_InitialCreate")]
     partial class InitialCreate
     {
         /// <inheritdoc />
@@ -36,16 +36,21 @@ namespace TodoApi.Migrations
                         .HasColumnType("text");
 
                     b.Property<string>("EditorUsers")
+                        .IsRequired()
                         .HasColumnType("text");
 
                     b.Property<Guid?>("ProjectId")
                         .HasColumnType("uuid");
 
-                    b.Property<Guid?>("ResponsibleUser")
+                    b.Property<Guid>("ResponsibleUser")
                         .HasColumnType("uuid");
 
                     b.Property<int>("StatusId")
                         .HasColumnType("integer");
+
+                    b.Property<string>("Tenant")
+                        .IsRequired()
+                        .HasColumnType("text");
 
                     b.HasKey("Id");
 

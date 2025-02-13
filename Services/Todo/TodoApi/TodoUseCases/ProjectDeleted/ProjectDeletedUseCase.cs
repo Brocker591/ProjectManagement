@@ -4,7 +4,7 @@ public record ProjectDeletedCommand(DeleteProjectEvent deleteProjectEvent);
 public record ProjectDeletedResult(bool isSuccess);
 
 
-public class ProjectDeletedUseCase(ITodoRepository repository, IGetTodosByProjectIdUseCase getTodoByProject) : IProjectDeletedUseCase
+internal sealed class ProjectDeletedUseCase(ITodoRepository repository, IGetTodosByProjectIdUseCase getTodoByProject) : IProjectDeletedUseCase
 {
     public async Task<ProjectDeletedResult> Execute(ProjectDeletedCommand command)
     {

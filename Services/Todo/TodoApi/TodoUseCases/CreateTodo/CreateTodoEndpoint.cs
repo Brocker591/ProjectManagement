@@ -1,12 +1,13 @@
-using System.IdentityModel.Tokens.Jwt;
+using Common.Authorization;
 using System.Security.Claims;
+
 
 namespace TodoApi.TodoUseCases.CreateTodo;
 
 public record CreateTodoDto(string Desciption, int StatusId, Guid? ResponsibleUser, List<Guid>? EditorUsers, Guid? ProjectId);
 public record ResponseCreateTodo(Todo data);
 
-public static class CreateTodoEndpoint
+internal static class CreateTodoEndpoint
 {
     public static IEndpointRouteBuilder MapCreateTodoEndpoint(this IEndpointRouteBuilder routes)
     {
@@ -17,31 +18,19 @@ public static class CreateTodoEndpoint
             if (!validationResult.IsValid)
                 return Results.ValidationProblem(validationResult.ToDictionary());
 
-            var userIdString = user.FindFirstValue(JwtRegisteredClaimNames.Sub);
+            var userAndTenant = user.GetUserIdAndTenant();
 
-            Guid userId;
-
-            if (!Guid.TryParse(userIdString, out userId))
-            {
+            if (userAndTenant is null)
                 return Results.Unauthorized();
 
-            }
-
-            string? tenant = user.FindFirstValue(Tenant.TenantName);
-
-            if (todoDto.ResponsibleUser is null)
-                todoDto = new CreateTodoDto(todoDto.Desciption, todoDto.StatusId, userId, todoDto.EditorUsers, todoDto.ProjectId);
-
-            if (todoDto.EditorUsers is null)
-                todoDto = new CreateTodoDto(todoDto.Desciption, todoDto.StatusId, todoDto.ResponsibleUser, new List<Guid> { userId }, todoDto.ProjectId);
 
             CreateTodoCommand command = new(
                 todoDto.Desciption,
                 todoDto.StatusId,
-                todoDto.ResponsibleUser ?? userId,
-                todoDto.EditorUsers ?? new List<Guid> { userId },
+                todoDto.ResponsibleUser ?? userAndTenant.Value.Key,
+                todoDto.EditorUsers ?? new List<Guid> { userAndTenant.Value.Key },
                 todoDto.ProjectId,
-                tenant ?? Tenant.TenantUnknown);
+                userAndTenant.Value.Value ?? TenantConstants.TenantUnknown);
 
 
 

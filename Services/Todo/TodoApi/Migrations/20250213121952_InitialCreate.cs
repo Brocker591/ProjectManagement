@@ -21,9 +21,10 @@ namespace TodoApi.Migrations
                     Id = table.Column<Guid>(type: "uuid", nullable: false),
                     Desciption = table.Column<string>(type: "text", nullable: false),
                     StatusId = table.Column<int>(type: "integer", nullable: false),
-                    ResponsibleUser = table.Column<Guid>(type: "uuid", nullable: true),
-                    EditorUsers = table.Column<string>(type: "text", nullable: true),
-                    ProjectId = table.Column<Guid>(type: "uuid", nullable: true)
+                    ResponsibleUser = table.Column<Guid>(type: "uuid", nullable: false),
+                    EditorUsers = table.Column<string>(type: "text", nullable: false),
+                    ProjectId = table.Column<Guid>(type: "uuid", nullable: true),
+                    Tenant = table.Column<string>(type: "text", nullable: false)
                 },
                 constraints: table =>
                 {

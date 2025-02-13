@@ -1,6 +1,6 @@
 ﻿namespace TodoApi.TodoUseCases.DeleteTodo;
 
-public static class DeleteTodoEndpoint
+internal static class DeleteTodoEndpoint
 {
     public static IEndpointRouteBuilder MapDeleteTodoEndpoint(this IEndpointRouteBuilder routes)
     {

@@ -3,7 +3,7 @@
 public record ProjectClosedCommand(ClosingProjectEvent closingProjectEvent);
 public record ProjectClosedResult(bool isSuccess);
 
-public class ProjectClosedUseCase(ITodoRepository repository, ITodoStatusRepository todoStatusRepository, IGetTodosByProjectIdUseCase getTodoByProject) : IProjectClosedUseCase
+internal sealed class ProjectClosedUseCase(ITodoRepository repository, ITodoStatusRepository todoStatusRepository, IGetTodosByProjectIdUseCase getTodoByProject) : IProjectClosedUseCase
 {
     public async Task<ProjectClosedResult> Execute(ProjectClosedCommand command)
     {
