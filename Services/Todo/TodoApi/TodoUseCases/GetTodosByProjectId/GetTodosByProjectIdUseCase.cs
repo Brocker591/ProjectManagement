@@ -8,9 +8,8 @@ internal sealed class GetTodosByProjectIdUseCase(ITodoRepository repository) : I
 {
     public async Task<GetTodosByProjectIdResult> Execute(GetTodosByProjectIdQuery query)
     {
-        var todos = await repository.GetTodos();
-        var todosByProjectId = todos.Where(x => x.ProjectId == query.projectId).ToList();
+        var todos = await repository.GetTodosByProjectId(query.projectId);
 
-        return new GetTodosByProjectIdResult(todosByProjectId);
+        return new GetTodosByProjectIdResult(todos);
     }
 }

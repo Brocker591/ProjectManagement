@@ -5,7 +5,7 @@ internal record TodoDto(Guid Id, string Desciption, int StatusId, Guid Responsib
 internal record ResponseTodosByProjectId(List<TodoDto> data);
 internal static class GetTodosByProjectIdEndpoint
 {
-    public static IEndpointRouteBuilder MapGetGetTodosByProjectIdEndpoint(this IEndpointRouteBuilder routes)
+    public static IEndpointRouteBuilder MapGetTodosByProjectIdEndpoint(this IEndpointRouteBuilder routes)
     {
         routes.MapGet("/ByProjectId/{projectId}", async (Guid projectId, IGetTodosByProjectIdUseCase useCase) =>
         {

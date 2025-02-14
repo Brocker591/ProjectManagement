@@ -1,4 +1,6 @@
-﻿namespace TodoApi.Repositories;
+﻿using static Microsoft.EntityFrameworkCore.DbLoggerCategory;
+
+namespace TodoApi.Repositories;
 
 public class TodoRepository(TodoContext dbContext) : ITodoRepository
 {
@@ -45,6 +47,18 @@ public class TodoRepository(TodoContext dbContext) : ITodoRepository
         var existingTodo = await GetTodo(todoId);
         dbContext.Todos.Remove(existingTodo);
         await dbContext.SaveChangesAsync();
+    }
+
+    public async Task<List<Todo>> GetTodosByTenant(string tenant)
+    {
+        var todos = await dbContext.Todos.Where(todo => todo.Tenant == tenant).ToListAsync();
+        return todos;
+    }
+
+    public async Task<List<Todo>> GetTodosByProjectId(Guid projectId)
+    {
+        var todos = await dbContext.Todos.Where(x => x.ProjectId == projectId).ToListAsync();
+        return todos;
     }
 }
 

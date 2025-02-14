@@ -6,6 +6,7 @@ using Common.Keycloak;
 using TodoApi.TodoUseCases;
 using TodoApi.TodoUseCases.GetTodoStatusList;
 using TodoApi.ErrorHandling;
+using TodoApi.TodoUseCases.GetTodosByTenant;
 
 const string corsSettings = "AllowedOrigin";
 
@@ -39,6 +40,7 @@ builder.Services.AddTransient<IDeleteTodoUseCase, DeleteTodoUseCase>();
 builder.Services.AddTransient<IProjectDeletedUseCase, ProjectDeletedUseCase>();
 builder.Services.AddTransient<IProjectClosedUseCase, ProjectClosedUseCase>();
 builder.Services.AddTransient<IGetTodoStatusListUseCase, GetTodoStatusListUseCase>();
+builder.Services.AddTransient<IGetTodosByTenantUseCase, GetTodosByTenantUseCase>();
 
 
 builder.Services.AddMessageBroker(builder.Configuration, Assembly.GetExecutingAssembly());

@@ -28,8 +28,4 @@
     <ProjectReference Include="..\..\..\Infra\Common\Common.csproj" />
   </ItemGroup>
 
-  <ItemGroup>
-    <Folder Include="TodoUseCases\GetTodosByTenant\" />
-  </ItemGroup>
-
 </Project>

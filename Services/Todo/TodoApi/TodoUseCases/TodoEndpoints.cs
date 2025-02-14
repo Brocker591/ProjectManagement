@@ -1,4 +1,5 @@
-﻿using TodoApi.TodoUseCases.GetTodoStatusList;
+﻿using TodoApi.TodoUseCases.GetTodosByTenant;
+using TodoApi.TodoUseCases.GetTodoStatusList;
 
 namespace TodoApi.TodoUseCases;
 
@@ -13,7 +14,8 @@ public static class TodoEndpoints
         group.MapDeleteTodoEndpoint();
         group.MapGetTodoEndpoint();
         group.MapGetTodosEndpoint();
-        group.MapGetGetTodosByProjectIdEndpoint();
+        group.MapGetTodosByProjectIdEndpoint();
         group.MapGetTodoStatusListEndpoint();
+        group.MapGetTodosByTenantEndpoint();
     }
 }
