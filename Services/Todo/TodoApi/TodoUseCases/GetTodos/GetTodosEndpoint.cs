@@ -1,4 +1,5 @@
-﻿using System.Linq;
+﻿using Common.Keycloak;
+using System.Linq;
 
 namespace TodoApi.TodoUseCases.GetTodos;
 
@@ -29,7 +30,8 @@ internal static class GetTodosEndpoint
         }).WithName("GetTasks")
           .ProducesProblem(StatusCodes.Status500InternalServerError)
           .WithSummary("Get Tasks")
-          .WithDescription("Get Tasks");
+          .WithDescription("Get Tasks")
+          .RequireAuthorization(Policies.AdminAccess);
 
         return routes;
     }

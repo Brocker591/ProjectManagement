@@ -6,7 +6,6 @@ const string corsSettings = "AllowedOrigin";
 var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.AddHealthChecks();
-builder.Services.AddAuthorization();
 builder.AddKeycloakAuthentication();
 builder.AddKeycloakAuthorization();
 builder.Services.AddEndpointsApiExplorer();
@@ -24,6 +23,7 @@ builder.Services.AddCors(options =>
 
 
 var app = builder.Build();
+app.UseCors();
 
 
 app.MapGetUserListEndpoint();

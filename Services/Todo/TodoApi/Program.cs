@@ -44,7 +44,6 @@ builder.Services.AddTransient<IGetTodosByTenantUseCase, GetTodosByTenantUseCase>
 
 
 builder.Services.AddMessageBroker(builder.Configuration, Assembly.GetExecutingAssembly());
-//builder.Services.AddAuthorization();
 builder.AddKeycloakAuthentication();
 builder.AddKeycloakAuthorization();
 

@@ -18,10 +18,10 @@ public static class GetUserListEndpoint
             {
                 string userUrl = config.GetSection("KeycloakUserSetting:UserUrl").Value;
                 string urlToken = config.GetSection("KeycloakUserSetting:TokenUrl").Value;
-                string clientId = config.GetSection("KeycloakSetting:Audience").Value;
+                string clientId = config.GetSection("KeycloakUserSetting:ClientId").Value;
                 string clientSecret = config.GetSection("KeycloakUserSetting:ClientSecret").Value;
-                string username = config.GetSection("KeycloakUserSetting:adminname").Value;
-                string password = config.GetSection("KeycloakUserSetting:password").Value;
+                string username = config.GetSection("KeycloakUserSetting:Adminname").Value;
+                string password = config.GetSection("KeycloakUserSetting:Password").Value;
 
                 var httpClient = new HttpClient();
 
