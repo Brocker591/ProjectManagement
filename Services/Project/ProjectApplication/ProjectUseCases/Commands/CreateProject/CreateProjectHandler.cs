@@ -9,6 +9,7 @@ public class CreateProjectHandler(IProjectRepositories repository) : ICommandHan
             command.projectDto.ResponsibleUser, 
             command.projectDto.Tasks, 
             command.projectDto.Users,
+            command.tenant,
             command.userName
             );
 

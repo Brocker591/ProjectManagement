@@ -1,4 +1,5 @@
 using Common.Authorization;
+using Common.Authorization.Models;
 using System.Security.Claims;
 
 
@@ -18,19 +19,19 @@ internal static class CreateTodoEndpoint
             if (!validationResult.IsValid)
                 return Results.ValidationProblem(validationResult.ToDictionary());
 
-            var userAndTenant = user.GetUserIdAndTenant();
+            IdentifiedUser identifiedUser = user.IdentifyUser();
 
-            if (userAndTenant is null)
+            if (identifiedUser is null)
                 return Results.Unauthorized();
 
 
             CreateTodoCommand command = new(
                 todoDto.Desciption,
                 todoDto.StatusId,
-                todoDto.ResponsibleUser ?? userAndTenant.Value.Key,
-                todoDto.EditorUsers ?? new List<Guid> { userAndTenant.Value.Key },
+                todoDto.ResponsibleUser ?? identifiedUser.UserId,
+                todoDto.EditorUsers ?? new List<Guid> { identifiedUser.UserId },
                 todoDto.ProjectId,
-                userAndTenant.Value.Value ?? TenantConstants.TenantUnknown);
+                identifiedUser.Tenant ?? TenantConstants.TenantUnknown);
 
 
 

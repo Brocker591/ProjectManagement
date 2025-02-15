@@ -12,7 +12,7 @@ using ProjectInfrastructure.Database;
 namespace ProjectInfrastructure.Migrations
 {
     [DbContext(typeof(ProjectManagementContext))]
-    [Migration("20240531130944_InitialCreate")]
+    [Migration("20250215094020_InitialCreate")]
     partial class InitialCreate
     {
         /// <inheritdoc />
@@ -54,6 +54,10 @@ namespace ProjectInfrastructure.Migrations
                         .HasColumnType("uuid");
 
                     b.Property<string>("Tasks")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<string>("Tenant")
                         .IsRequired()
                         .HasColumnType("text");
 

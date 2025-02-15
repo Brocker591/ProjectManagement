@@ -1,4 +1,7 @@
-﻿namespace ProjectDomain.Models;
+﻿using Common.Authorization;
+
+
+namespace ProjectDomain.Models;
 
 public class Project : Entity<Guid>
 {
@@ -8,8 +11,9 @@ public class Project : Entity<Guid>
     public List<Guid> Tasks { get; set; } = new List<Guid>();
     public List<Guid> Users { get; set; } = new List<Guid>();
     public bool IsClosed { get; set; } = false;
+    public string Tenant { get; set; } = TenantConstants.TenantUnknown;
 
-    public static Project Create(string name, Guid responsibleUser, List<Guid> tasks, List<Guid> users, string userName)
+    public static Project Create(string name, Guid responsibleUser, List<Guid> tasks, List<Guid> users, string tenant, string userName)
     {
         ArgumentException.ThrowIfNullOrWhiteSpace(name);
 
@@ -21,6 +25,7 @@ public class Project : Entity<Guid>
             Tasks = tasks,
             Users = users,
             IsClosed = false,
+            Tenant = tenant,
             CreateAt = DateTime.UtcNow,
             CreatedBy = userName,
         };

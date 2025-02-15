@@ -1,13 +1,21 @@
-﻿using System.IdentityModel.Tokens.Jwt;
+﻿using Common.Authorization.Models;
+using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 
 namespace Common.Authorization;
 
 public static class ClaimsPrincipalExtensions
 {
-    public static KeyValuePair<Guid,string>? GetUserIdAndTenant(this ClaimsPrincipal user)
+    public static IdentifiedUser? IdentifyUser(this ClaimsPrincipal user)
     {
-        var userIdString = user.FindFirstValue(JwtRegisteredClaimNames.Sub);
+
+        if (user is null || user?.Identity?.IsAuthenticated == false)
+        {
+            return null;
+        }
+
+        string? userIdString = user?.FindFirstValue(JwtRegisteredClaimNames.Sub);
+
 
         Guid userId;
 
@@ -17,11 +25,19 @@ public static class ClaimsPrincipalExtensions
 
         }
 
-        string? tenant = user.FindFirstValue(TenantConstants.Tenant);
+        var userName = user!.FindFirstValue(JwtRegisteredClaimNames.Email) ?? userId.ToString();
+
+        if (string.IsNullOrEmpty(userName))
+        {
+            return null;
+        }
+
+
+        string? tenant = user!.FindFirstValue(TenantConstants.Tenant);
 
         if(tenant is not null)
-            return new KeyValuePair<Guid, string>(userId, tenant);
+            return new IdentifiedUser(userId, userName, tenant);
         else
-            return new KeyValuePair<Guid, string>(userId, TenantConstants.TenantUnknown);
+            return new IdentifiedUser(userId, userName, TenantConstants.TenantUnknown);
     }
 }

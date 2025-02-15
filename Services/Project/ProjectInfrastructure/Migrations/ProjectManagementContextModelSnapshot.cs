@@ -54,6 +54,10 @@ namespace ProjectInfrastructure.Migrations
                         .IsRequired()
                         .HasColumnType("text");
 
+                    b.Property<string>("Tenant")
+                        .IsRequired()
+                        .HasColumnType("text");
+
                     b.Property<string>("Users")
                         .IsRequired()
                         .HasColumnType("text");

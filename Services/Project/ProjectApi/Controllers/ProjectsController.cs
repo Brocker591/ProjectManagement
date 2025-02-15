@@ -1,4 +1,6 @@
-﻿using Common.Keycloak;
+﻿using Common.Authorization;
+using Common.Authorization.Models;
+using Common.Keycloak;
 using MassTransit;
 using Microsoft.AspNetCore.Authorization;
 using ProjectApplication.ProjectUseCases.Queries.GetProjectsFromCurrentUser;
@@ -89,12 +91,14 @@ public class ProjectsController(ISender sender) : ControllerBase
     [HttpPost]
     public async Task<ActionResult<ProjectResponse>> CreateProject(ProjectCreateDto dto)
     {
+        IdentifiedUser? identifiedUser = User.IdentifyUser();
 
-        string userName = User.Claims.FirstOrDefault(x => x.Type == "preferred_username")?.Value;
+        if (identifiedUser is null)
+            return Forbid();
 
         try
         {
-            CreateProjectCommand command = new CreateProjectCommand(dto, userName);
+            CreateProjectCommand command = new CreateProjectCommand(dto, identifiedUser.UserName, identifiedUser.Tenant);
             CreateProjectResult result = await sender.Send(command);
             return Ok(new ProjectResponse(result.data));
         }

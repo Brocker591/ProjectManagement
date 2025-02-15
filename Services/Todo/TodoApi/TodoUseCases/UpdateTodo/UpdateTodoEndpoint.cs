@@ -1,4 +1,5 @@
 ﻿using Common.Authorization;
+using Common.Authorization.Models;
 using System.Security.Claims;
 
 
@@ -18,9 +19,9 @@ public static class UpdateTodoEndpoint
             if (!validationResult.IsValid)
                 return Results.ValidationProblem(validationResult.ToDictionary());
 
-            var userAndTenant = user.GetUserIdAndTenant();
+            IdentifiedUser identifiedUser = user.IdentifyUser();
 
-            if (userAndTenant is null)
+            if (identifiedUser is null)
                 return Results.Unauthorized();
 
             Todo todo = new()
@@ -31,7 +32,7 @@ public static class UpdateTodoEndpoint
                 ResponsibleUser = todoDto.ResponsibleUser,
                 EditorUsers = todoDto.EditorUsers,
                 ProjectId = todoDto.ProjectId,
-                Tenant = userAndTenant.Value.Value
+                Tenant = identifiedUser.Tenant
             };
 
             UpdateTodoCommand command = new(todo);

@@ -13,6 +13,14 @@ dotnet ef migrations add InitialCreate
 
 ```
 
+### Migrations Project-Ordner
+
+```powershell
+
+dotnet ef migrations add <Name der Migrations> --startup-project ../ProjectApi/
+
+```
+
 
 ## User anlegen bei KeyCloak
 

@@ -21,6 +21,7 @@ namespace ProjectInfrastructure.Migrations
                     Tasks = table.Column<string>(type: "text", nullable: false),
                     Users = table.Column<string>(type: "text", nullable: false),
                     IsClosed = table.Column<bool>(type: "boolean", nullable: false),
+                    Tenant = table.Column<string>(type: "text", nullable: false),
                     CreateAt = table.Column<DateTime>(type: "timestamp with time zone", nullable: true),
                     CreatedBy = table.Column<string>(type: "text", nullable: true),
                     LastModified = table.Column<DateTime>(type: "timestamp with time zone", nullable: true),

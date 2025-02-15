@@ -1,4 +1,5 @@
 ﻿using Common.Authorization;
+using Common.Authorization.Models;
 using System.Security.Claims;
 
 namespace TodoApi.TodoUseCases.GetTodosByTenant;
@@ -12,12 +13,12 @@ internal static class GetTodosByTenantEndpoint
         routes.MapGet("/ByTenant", async (IGetTodosByTenantUseCase useCase, ClaimsPrincipal user) =>
         {
 
-            var userAndTenant = user.GetUserIdAndTenant();
+            IdentifiedUser identifiedUser = user.IdentifyUser();
 
-            if (userAndTenant is null)
+            if (identifiedUser is null)
                 return Results.Unauthorized();
 
-            GetTodosByTenantQuery query = new(userAndTenant.Value.Value);
+            GetTodosByTenantQuery query = new(identifiedUser.Tenant);
             GetTodosByTenantResult result = await useCase.Execute(query);
 
             List<TodoDto> dtos = result.data.Select(todo => new TodoDto(
