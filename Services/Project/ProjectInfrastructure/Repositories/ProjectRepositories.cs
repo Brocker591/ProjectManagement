@@ -35,6 +35,12 @@ public class ProjectRepositories(ProjectManagementContext dbContext) : IProjectR
         return projects;
     }
 
+    public async Task<List<Project>> GetProjectsByTenant(string tenant)
+    {
+        var projects = await dbContext.Projects.Where(project => project.Tenant == tenant).ToListAsync();
+        return projects;
+    }
+
     public async Task UpdateProject(Project project)
     {
         var existingProject = await GetProject(project.Id);

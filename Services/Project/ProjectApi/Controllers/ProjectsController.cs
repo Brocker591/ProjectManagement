@@ -3,6 +3,7 @@ using Common.Authorization.Models;
 using Common.Keycloak;
 using MassTransit;
 using Microsoft.AspNetCore.Authorization;
+using ProjectApplication.ProjectUseCases.Queries.GetProjectByTenant;
 using ProjectApplication.ProjectUseCases.Queries.GetProjectsFromCurrentUser;
 using System.Diagnostics;
 using System.Security.Claims;
@@ -61,6 +62,27 @@ public class ProjectsController(ISender sender) : ControllerBase
         catch (ProjectNotFoundException ex)
         {
             return NotFound(ex.Message);
+        }
+        catch (Exception ex)
+        {
+            return Problem(detail: ex.Message, statusCode: 500);
+        }
+    }
+
+    [HttpGet("ByTenant")]
+    public async Task<ActionResult<ProjectListResponse>> GetProjectsByTenant()
+    {
+        try
+        {
+            IdentifiedUser? identifiedUser = User.IdentifyUser();
+
+            if (identifiedUser is null)
+                return Forbid();
+
+
+            GetProjectsByTenantQuery query = new GetProjectsByTenantQuery(identifiedUser.Tenant);
+            GetProjectsByTenantResult result = await sender.Send(query);
+            return Ok(new ProjectListResponse(result.data));
         }
         catch (Exception ex)
         {
