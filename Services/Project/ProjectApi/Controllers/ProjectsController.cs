@@ -18,6 +18,7 @@ public class ProjectsController(ISender sender) : ControllerBase
 {
 
     [HttpGet]
+    [Authorize(Policy = Policies.AdminAccess)]
     public async Task<ActionResult<ProjectListResponse>> GetAllProjects()
     {
         try 
@@ -37,10 +38,13 @@ public class ProjectsController(ISender sender) : ControllerBase
     {
         try
         {
-            Guid userID = Guid.Parse(this.User.FindFirst(ClaimTypes.NameIdentifier).Value);
+            IdentifiedUser? identifiedUser = User.IdentifyUser();
+
+            if (identifiedUser is null)
+                return Forbid();
 
 
-            GetProjectsFromCurrentUserQuery query = new GetProjectsFromCurrentUserQuery(userID);
+            GetProjectsFromCurrentUserQuery query = new GetProjectsFromCurrentUserQuery(identifiedUser.UserId);
             var result = await sender.Send(query);
             return Ok(new ProjectListResponse(result.data));
         }
