@@ -74,11 +74,12 @@ app.UseExceptionHandler();
 builder.Services.AddProblemDetails();
 
 //Create Database
-using (var scope = app.Services.CreateScope()) 
+using (var scope = app.Services.CreateScope())
 {
     var context = scope.ServiceProvider.GetRequiredService<TodoContext>();
     await context.Database.MigrateAsync();
-};
+}
+;
 
 app.UseHealthChecks("/health", new HealthCheckOptions
 {

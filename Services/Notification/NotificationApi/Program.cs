@@ -92,7 +92,8 @@ using (var scope = app.Services.CreateScope())
 {
     var context = scope.ServiceProvider.GetRequiredService<NotificationContext>();
     await context.Database.MigrateAsync();
-};
+}
+;
 
 app.UseHealthChecks("/health", new HealthCheckOptions
 {
@@ -106,7 +107,6 @@ if (app.Environment.IsDevelopment())
     app.UseSwaggerUI();
 }
 
-app.UseHttpsRedirection();
 
 app.UseAuthorization();
 
