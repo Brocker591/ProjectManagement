@@ -11,7 +11,7 @@ USER appuser
 
 
 FROM mcr.microsoft.com/dotnet/sdk:8.0 AS build
-
+ARG BUILD_CONFIGURATION=Release
 WORKDIR /src
 COPY ["Services/User/UserApi/UserApi.csproj", "Services/User/UserApi/"]
 COPY ["Infra/Common/Common.csproj", "Infra/Common/"]
@@ -21,6 +21,7 @@ WORKDIR "/src/Services/User/UserApi"
 RUN dotnet build "./UserApi.csproj" -c Release -o /app/build
 
 FROM build AS publish
+ARG BUILD_CONFIGURATION=Release
 RUN dotnet publish "./UserApi.csproj" -c Release -o /app/publish /p:UseAppHost=false
 
 FROM base AS final

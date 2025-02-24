@@ -5,11 +5,11 @@ WORKDIR /app
 EXPOSE 80
 ENV ASPNETCORE_URLS=http://+:80
 
-#RUN adduser -u 5678 --disabled-password --gecos "" appuser && chown -R appuser /app
-#USER appuser
+RUN adduser -u 5678 --disabled-password --gecos "" appuser && chown -R appuser /app
+USER appuser
 
 FROM mcr.microsoft.com/dotnet/sdk:8.0 AS build
-
+ARG BUILD_CONFIGURATION=Release
 WORKDIR /src
 COPY ["Services/Project/ProjectApi/ProjectApi.csproj", "Services/Project/ProjectApi/"]
 COPY ["Infra/Common/Common.csproj", "Infra/Common/"]
@@ -22,7 +22,7 @@ WORKDIR "/src/Services/Project/ProjectApi"
 RUN dotnet build "./ProjectApi.csproj" -c Release -o /app/build
 
 FROM build AS publish
-
+ARG BUILD_CONFIGURATION=Release
 RUN dotnet publish "./ProjectApi.csproj" -c Release -o /app/publish /p:UseAppHost=false
 
 FROM base AS final

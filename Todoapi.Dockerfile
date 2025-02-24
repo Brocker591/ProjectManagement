@@ -11,7 +11,7 @@ USER appuser
 
 
 FROM mcr.microsoft.com/dotnet/sdk:8.0 AS build
-
+ARG BUILD_CONFIGURATION=Release
 WORKDIR /src
 COPY ["Services/Todo/TodoApi/TodoApi.csproj", "Services/Todo/TodoApi/"]
 COPY ["Infra/Common/Common.csproj", "Infra/Common/"]
@@ -21,6 +21,7 @@ WORKDIR "/src/Services/Todo/TodoApi"
 RUN dotnet build "./TodoApi.csproj" -c Release -o /app/build
 
 FROM build AS publish
+ARG BUILD_CONFIGURATION=Release
 RUN dotnet publish "./TodoApi.csproj" -c Release -o /app/publish /p:UseAppHost=false
 
 FROM base AS final
